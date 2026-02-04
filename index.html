@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Integrado - Prompts & Tutoriais</title>
+    <style>
+        /* ======================================= */
+        /* CONFIGURAÇÃO DE DESIGN "CORPORATE ZEN"  */
+        /* ======================================= */
+        :root {
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --primary: #2c3e50;
+            --accent: #1abc9c;
+            --accent-hover: #16a085;
+            --edit: #34495e;
+            --pin: #f39c12;
+            --text: #333333;
+            --shadow: 0 6px 20px rgba(0,0,0,0.08);
+            --radius: 10px;
+            --success: #2ecc71;
+            --delete-color: #e74c3c;
+            --toolbar-bg: #ecf0f1;
+            --icon-color: #7f8c8d;
+            --input-bg: #ffffff;
+            --input-border: #e0e0e0;
+            --card-hover-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            --pinned-bg: #ede9da;
+            --pinned-border: #f39c12;
+            --nav-bg: #2c3e50;
+            --nav-text: #ffffff;
+            
+            /* Scrollbar vars */
+            --scroll-track: #ecf0f1;
+            --scroll-thumb: #bdc3c7;
+            --scroll-thumb-hover: #95a5a6;
+        }
+
+        body.dark-mode {
+            --bg-color: #1a1d23;
+            --card-bg: #242831;
+            --primary: #e8eaed;
+            --accent: #1abc9c;
+            --accent-hover: #16a085;
+            --edit: #6c8caf;
+            --pin: #f39c12;
+            --text: #c5c7ca;
+            --shadow: 0 6px 20px rgba(0,0,0,0.4);
+            --success: #2ecc71;
+            --delete-color: #e74c3c;
+            --toolbar-bg: #2f3540;
+            --icon-color: #8a8d91;
+            --input-bg: #2f3540;
+            --input-border: #3a3f4b;
+            --card-hover-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            --pinned-bg: #2a2516;
+            --pinned-border: #f39c12;
+            --nav-bg: #14161a;
+
+            /* Scrollbar vars dark */
+            --scroll-track: #2f3540;
+            --scroll-thumb: #4b5563;
+            --scroll-thumb-hover: #6b7280;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            
+            /* Configuração para imagem de fundo */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+        }
+
+        /* MELHORIA VISUAL: SCROLLBAR PERSONALIZADA */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--scroll-track); }
+        ::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--scroll-thumb-hover); }
+
+        /* MENU DE NAVEGAÇÃO */
+        .main-nav {
+            background-color: var(--nav-bg);
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .nav-container {
+            display: flex;
+            gap: 10px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .nav-item {
+            padding: 15px 20px;
+            color: var(--nav-text);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            opacity: 0.7;
+            user-select: none;
+        }
+
+        .nav-item:hover {
+            opacity: 1;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav-item.active {
+            opacity: 1;
+            border-bottom-color: var(--accent);
+        }
+
+        /* CONTAINER DE CONTEÚDO */
+        .tab-content {
+            display: none;
+            padding: 40px 20px;
+            animation: fadeIn 0.4s ease;
+            will-change: opacity, transform;
+        }
+
+        .tab-content.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* BOTÕES FLUTUANTES */
+        .dark-mode-toggle, .bg-image-toggle {
+            position: fixed;
+            right: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--input-border);
+            color: var(--text);
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .dark-mode-toggle { bottom: 20px; }
+        .bg-image-toggle { bottom: 75px; }
+
+        .dark-mode-toggle:hover, .bg-image-toggle:hover { transform: scale(1.1); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+
+        /* ESTILOS GERAIS */
+        h1 { color: var(--primary); font-weight: 700; margin-bottom: 20px; letter-spacing: -0.8px; font-size: 2.2em; text-align: center; text-shadow: 0 1px 2px rgba(255,255,255,0.5); }
+        
+        .backup-area { display: flex; gap: 15px; margin-bottom: 20px; justify-content: center; width: 100%; }
+        .btn-outline {
+            background: transparent; border: 1px solid var(--primary); color: var(--primary);
+            padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600;
+            display: flex; align-items: center; gap: 5px; transition: all 0.3s;
+            background-color: rgba(255, 255, 255, 0.6); backdrop-filter: blur(2px);
+        }
+        .btn-outline:hover { background-color: var(--primary); color: var(--card-bg); }
+
+        .input-container {
+            background: var(--card-bg); padding: 30px; border-radius: var(--radius);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); width: 100%; max-width: 800px; margin-bottom: 30px;
+            border-left: 5px solid var(--accent); transition: 0.3s;
+        }
+
+        input[type="text"], input[type="search"] {
+            width: 100%; padding: 15px; margin-bottom: 15px;
+            border: 1px solid var(--input-border); border-radius: 6px;
+            box-sizing: border-box; font-family: inherit; font-size: 15px; outline: none;
+            background-color: var(--input-bg); color: var(--text); transition: 0.3s;
+        }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2); }
+
+        /* EDITOR */
+        .editor-container { border: 1px solid var(--input-border); border-radius: 6px; margin-bottom: 18px; background-color: var(--input-bg); overflow: hidden; }
+        .toolbar { background-color: var(--toolbar-bg); padding: 5px; border-bottom: 1px solid var(--input-border); display: flex; gap: 5px; flex-wrap: wrap; }
+        .toolbar button { background: none; border: none; cursor: pointer; padding: 8px 10px; font-size: 14px; color: var(--icon-color); border-radius: 4px; display: flex; align-items: center; gap: 4px; }
+        .toolbar button:hover { background: rgba(0,0,0,0.05); color: var(--primary); }
+
+        .rich-editor { 
+            width: 100%; min-height: 200px; padding: 15px; box-sizing: border-box; outline: none; 
+            font-size: 15px; line-height: 1.6; background-color: var(--input-bg); color: var(--text); 
+            overflow-x: auto; 
+        }
+        .rich-editor img { 
+            max-width: 100%; height: auto; border-radius: 4px; margin: 10px 0; 
+            border: 2px solid transparent; cursor: pointer; transition: border-color 0.2s; 
+        }
+        .rich-editor img:hover { border-color: var(--accent); }
+        
+        button.add-btn { width: 100%; padding: 15px; background-color: var(--accent); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; text-transform: uppercase; transition: all 0.2s ease; }
+        button.add-btn:hover { background-color: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(26, 188, 156, 0.3); }
+
+        /* GRID / LISTAS */
+        #commandsGrid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+        }
+        @media (max-width: 900px) {
+            #commandsGrid { grid-template-columns: 1fr; }
+        }
+
+        /* 5 ITENS POR LINHA (minmax 300px) */
+        .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; width: 100%; max-width: 1600px; }
+        .items-list { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 1000px; }
+
+        /* CARDS PROMPTS */
+        .card-prompt {
+            background: var(--card-bg); padding: 20px; padding-top: 15px; border-radius: var(--radius);
+            box-shadow: var(--shadow); display: flex; flex-direction: column; position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border-top: 4px solid transparent;
+            height: 420px;
+            box-sizing: border-box;
+        }
+        .card-prompt.is-pinned { border: 1px solid var(--pinned-border); border-top: 4px solid var(--pinned-border); background-color: var(--pinned-bg); order: -1; }
+        .card-prompt:hover { transform: translateY(-5px); box-shadow: var(--card-hover-shadow); }
+        .card-prompt h3 { margin-top: 0; color: var(--primary); font-size: 1.2em; border-bottom: 1px solid var(--input-border); padding-bottom: 10px; margin-bottom: 15px; padding-right: 70px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .card-prompt .card-content { 
+            font-size: 15px; line-height: 1.5; color: var(--text); background: var(--bg-color); 
+            padding: 12px; border-radius: 4px; 
+            flex: 1;
+            overflow-y: auto; 
+            word-wrap: break-word; 
+            margin-bottom: 10px;
+        }
+        
+        .top-actions { position: absolute; top: 15px; right: 15px; display: flex; gap: 5px; z-index: 10; }
+        .btn-top-icon { background: none; border: none; cursor: pointer; font-size: 16px; padding: 5px; border-radius: 4px; transition: background 0.2s; opacity: 0.6; }
+        .btn-top-icon:hover { background: rgba(0,0,0,0.05); opacity: 1; }
+        .actions { display: flex; gap: 10px; margin-top: auto; }
+        .btn-action { flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .btn-copy { background-color: var(--accent); color: white; }
+        .btn-copy:hover { background-color: var(--accent-hover); }
+        .btn-copy.copied { background-color: var(--success); } /* Feedback Visual */
+        .btn-edit { background-color: var(--edit); color: white; }
+        .btn-edit:hover { opacity: 0.9; }
+
+        /* CARDS TUTORIAIS */
+        .card-tutorial { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; border-left: 6px solid var(--accent); transition: 0.3s; }
+        .card-tutorial.is-pinned { border-left-width: 10px; background-color: var(--pinned-bg); order: -1; }
+        .card-header { padding: 15px 25px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+        .card-header:hover { background-color: rgba(0,0,0,0.02); }
+        .card-title-area { display: flex; align-items: center; gap: 15px; flex: 1; }
+        .card-title-area h3 { margin: 0; font-size: 1.25em; color: var(--primary); }
+        .card-tags { display: flex; gap: 5px; margin-right: 15px; }
+        .card-tag-small { font-size: 10px; padding: 3px 8px; border-radius: 10px; color: #fff; font-weight: bold; text-transform: uppercase; }
+        .card-options .btn-opt { background: transparent; border: 1px solid var(--input-border); padding: 5px 8px; border-radius: 4px; cursor: pointer; color: var(--icon-color); }
+        .card-options .btn-opt.active { color: var(--pin); border-color: var(--pin); }
+        .card-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
+        .card-tutorial.open .card-body { max-height: 5000px; border-top: 1px solid var(--input-border); }
+        .card-tutorial .card-content { padding: 30px; line-height: 1.7; font-size: 15px; color: var(--text); }
+        .card-footer { padding: 0 30px 25px; display: flex; justify-content: flex-end; }
+
+        /* TAGS MANAGER */
+        .tags-manager-section { margin-bottom: 15px; padding: 15px; background: var(--toolbar-bg); border-radius: 6px; border: 1px solid var(--input-border); }
+        .tags-selection-area { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+        .tag-chip { display: inline-flex; align-items: center; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #fff; cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.2s; text-transform: uppercase; }
+        .tag-chip.selected { opacity: 1; border-color: var(--text); transform: scale(1.05); }
+        .color-input-modern { -webkit-appearance: none; border: none; width: 35px; height: 35px; cursor: pointer; background: none; padding: 0; }
+        .color-input-modern::-webkit-color-swatch { border: 2px solid var(--input-border); border-radius: 6px; }
+
+        /* MODAL DE TAGS */
+        .tag-modal {
+            display: none;
+            position: fixed;
+            z-index: 3500;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+        .tag-modal.active { display: flex; }
+        .tag-modal-content {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 400px;
+            border-left: 5px solid var(--accent);
+            animation: fadeIn 0.3s;
+        }
+        .tag-modal-content h2 { margin-top: 0; color: var(--primary); font-size: 1.3em; margin-bottom: 20px; }
+        .tag-modal-content input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--input-border); border-radius: 6px; box-sizing: border-box; font-family: inherit; font-size: 15px; outline: none; background-color: var(--input-bg); color: var(--text); transition: 0.3s; }
+        .tag-modal-content input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2); }
+        .tag-modal-color-row { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; }
+        .tag-modal-color-input { -webkit-appearance: none; border: none; width: 50px; height: 50px; cursor: pointer; background: none; padding: 0; border-radius: 6px; }
+        .tag-modal-color-input::-webkit-color-swatch { border: 2px solid var(--input-border); border-radius: 4px; }
+        .tag-modal-buttons { display: flex; gap: 10px; justify-content: flex-end; }
+        .tag-modal-btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s; font-size: 14px; }
+        .tag-modal-btn-primary { background-color: var(--accent); color: white; }
+        .tag-modal-btn-primary:hover { opacity: 0.9; }
+        .tag-modal-btn-secondary { background: transparent; border: 1px solid var(--input-border); color: var(--text); }
+        .tag-modal-btn-secondary:hover { background: var(--toolbar-bg); }
+
+        /* UTILS */
+        .lightbox-modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .db-status { position: fixed; bottom: 10px; left: 10px; font-size: 11px; color: var(--icon-color); opacity: 0.7; z-index: 100; font-weight: 500; }
+        #toast { visibility: hidden; min-width: 250px; background-color: var(--primary); color: var(--card-bg); text-align: center; border-radius: 4px; padding: 14px; position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 4000; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-weight: 600; }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 40px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 40px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+
+        /* COMANDOS ÚTEIS (TERMINAL THEME) */
+        .card-command {
+            background: linear-gradient(180deg, #071017 0%, #0b1418 100%);
+            color: #b8f2c2;
+            padding: 18px;
+            border-radius: 10px;
+            box-shadow: 0 8px 30px rgba(2,8,12,0.6);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 320px;
+            border: 1px solid #1e282e;
+        }
+        .terminal-area {
+            background: #081018;
+            color: #33ff77;
+            font-family: 'Fira Code', 'Consolas', monospace; /* Fonte monoespaçada melhorada */
+            padding: 18px;
+            border-radius: 8px;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+            flex: 1;
+            overflow: auto;
+            font-size: 13px;
+            line-height: 1.6;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        /* Scrollbar Terminal Específico */
+        .terminal-area::-webkit-scrollbar { width: 6px; }
+        .terminal-area::-webkit-scrollbar-track { background: #081018; }
+        .terminal-area::-webkit-scrollbar-thumb { background: #1e3a29; border-radius: 3px; }
+
+        .terminal-line { white-space: pre-wrap; word-break: break-all; margin-bottom: 8px; }
+        .terminal-prompt { color: #9be7a8; font-weight: 700; margin-right: 8px; user-select: none; }
+        .card-command h3 { margin: 0 0 10px 0; color: #8aeaac; font-family: sans-serif; }
+        .command-actions { margin-top: 12px; display: flex; gap: 8px; }
+        .btn-terminal { padding: 8px 12px; border-radius: 6px; border: none; cursor: pointer; font-weight: 700; background: rgba(255,255,255,0.05); color: #eafaf0; transition: background 0.2s; }
+        .btn-terminal:hover { background: rgba(255,255,255,0.15); }
+        .btn-terminal.copy { background: rgba(51,255,119,0.15); color: #8affb0; }
+        .btn-terminal.copy:hover { background: rgba(51,255,119,0.25); }
+        .btn-terminal.edit { background: rgba(155,231,168,0.1); }
+
+        @media (max-width: 680px) {
+            .card-prompt, .card-command { height: auto; min-height: 300px; }
+            .items-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="main-nav">
+        <div class="nav-container">
+            <div class="nav-item active" onclick="AppManager.switchTab('prompts', event)" role="tab" aria-selected="true" aria-controls="tab-prompts">🚀 Prompts</div>
+            <div class="nav-item" onclick="AppManager.switchTab('tutorials', event)" role="tab" aria-selected="false" aria-controls="tab-tutorials">📚 KBs & Procedimentos</div>
+            <div class="nav-item" onclick="AppManager.switchTab('commands', event)" role="tab" aria-selected="false" aria-controls="tab-commands">🔧 Comandos Úteis</div>
+        </div>
+    </nav>
+
+    <button class="bg-image-toggle" onclick="AppManager.triggerBgUpload()" title="Alterar plano de fundo (Max 1.5MB p/ Salvar)" aria-label="Alterar plano de fundo">
+        <span>🖼️</span>
+    </button>
+    <input type="file" id="bgBodyInput" accept="image/*" style="display: none;" onchange="AppManager.handleBgUpload(this)">
+
+    <button class="dark-mode-toggle" onclick="AppManager.toggleDarkMode()" title="Alternar tema" aria-label="Alternar modo escuro">
+        <span id="modeIcon">🌙</span>
+    </button>
+
+    <div id="lightbox" class="lightbox-modal" onclick="this.style.display='none'" role="dialog" aria-label="Visualizador de imagem">
+        <img id="lightboxImg" style="max-width: 90%; max-height: 90%; box-shadow: 0 0 50px rgba(0,0,0,0.8); border-radius: 5px;" alt="Imagem ampliada">
+    </div>
+    
+    <div id="tagModal" class="tag-modal" role="dialog" aria-labelledby="tagModalTitle" aria-modal="true">
+        <div class="tag-modal-content">
+            <h2 id="tagModalTitle">Criar Nova Tag</h2>
+            <input type="text" id="tagModalName" placeholder="Nome da tag..." aria-label="Nome da tag">
+            <div class="tag-modal-color-row">
+                <label for="tagModalColor">Cor:</label>
+                <input type="color" id="tagModalColor" class="tag-modal-color-input" value="#1abc9c" aria-label="Cor da tag">
+            </div>
+            <div class="tag-modal-buttons">
+                <button class="tag-modal-btn tag-modal-btn-secondary" onclick="TutorialsManager.closeTagModal()" aria-label="Cancelar">Cancelar</button>
+                <button class="tag-modal-btn tag-modal-btn-primary" onclick="TutorialsManager.createTagFromModal()" aria-label="Criar tag">Criar</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="db-status" id="dbStatus">Inicializando...</div>
+
+    <div id="tab-prompts" class="tab-content active" role="tabpanel" aria-labelledby="tab-prompts-label">
+        <h1 id="tab-prompts-label">Prompts Intranetworks</h1>
+        
+        <div class="backup-area">
+            <button class="btn-outline" onclick="PromptsManager.export()" aria-label="Backup">💾 Backup</button>
+            <button class="btn-outline" onclick="document.getElementById('promptImport').click()" aria-label="Restaurar">📂 Restaurar</button>
+            <input type="file" id="promptImport" accept=".json" style="display: none;" onchange="PromptsManager.import(this)" aria-hidden="true">
+        </div>
+
+        <div class="input-container">
+            <input type="search" id="promptSearch" placeholder="🔍 Pesquisar prompts..." onkeyup="PromptsManager.render()" aria-label="Pesquisar">
+            <input type="text" id="promptTitleInput" placeholder="Título do Prompt..." aria-label="Título">
+            
+            <div class="editor-container">
+                <div class="toolbar" role="toolbar">
+                    <button onclick="AppManager.formatText('bold')"><b>B</b></button>
+                    <button onclick="AppManager.formatText('italic')"><i>I</i></button>
+                    <button onclick="AppManager.formatText('underline')"><u>U</u></button>
+                    <button onclick="AppManager.formatText('insertUnorderedList')">• Lista</button>
+                    <button onclick="AppManager.formatText('insertOrderedList')">1. Lista</button>
+                </div>
+                <div id="promptTextInput" class="rich-editor" contenteditable="true" placeholder="Escreva seu prompt aqui..." role="textbox"></div>
+            </div>
+            <button class="add-btn" id="promptSaveButton" onclick="PromptsManager.add()">Salvar Novo Prompt</button>
+        </div>
+
+        <div class="items-grid" id="promptGrid" role="region"></div>
+    </div>
+
+    <div id="tab-tutorials" class="tab-content" role="tabpanel" aria-labelledby="tab-tutorials-label">
+        <h1 id="tab-tutorials-label">KBs & Procedimentos</h1>
+
+        <div class="backup-area">
+            <button class="btn-outline" onclick="TutorialsManager.export()" aria-label="Backup">💾 Backup</button>
+            <button class="btn-outline" onclick="document.getElementById('tutorialImport').click()" aria-label="Restaurar">📂 Restaurar</button>
+            <input type="file" id="tutorialImport" accept=".json" style="display: none;" onchange="TutorialsManager.import(this)" aria-hidden="true">
+        </div>
+
+        <div class="input-container" id="tutorialInputContainer">
+            <input type="search" id="tutorialSearch" placeholder="🔍 Pesquisar tutoriais..." onkeyup="TutorialsManager.render()" aria-label="Pesquisar">
+            <input type="text" id="tutorialTitleInput" placeholder="Título do Procedimento..." aria-label="Título">
+            
+            <div class="tags-manager-section">
+                <div class="tags-selection-area" id="tagsSelectionArea" role="group"></div>
+                <button class="btn-outline" style="margin-top: 10px;" onclick="TutorialsManager.openTagModal()">+ Adicionar Tag</button>
+            </div>
+
+            <div class="editor-container">
+                <div class="toolbar" role="toolbar">
+                    <button onclick="AppManager.formatText('bold')"><b>B</b></button>
+                    <button onclick="AppManager.formatText('italic')"><i>I</i></button>
+                    <button onclick="AppManager.formatText('underline')"><u>U</u></button>
+                    <button onclick="AppManager.formatText('insertUnorderedList')">• Lista</button>
+                    <button onclick="AppManager.formatText('insertOrderedList')">1. Lista</button>
+                    <button onclick="TutorialsManager.triggerImageUpload()" title="Upload Imagem">🖼️ Upload</button>
+                    <button onclick="TutorialsManager.triggerUrlImage()" title="Link Imagem">🔗 Link</button>
+                    <input type="file" id="imgUpload" accept="image/*" style="display: none;" onchange="TutorialsManager.handleImageUpload(this)">
+                </div>
+                <div id="tutorialTextInput" class="rich-editor" contenteditable="true" placeholder="Descreva o procedimento e cole prints..." role="textbox"></div>
+            </div>
+            <button class="add-btn" id="tutorialSaveButton" onclick="TutorialsManager.add()">Salvar Procedimento</button>
+        </div>
+
+        <div class="items-list" id="tutorialGrid" role="region"></div>
+    </div>
+
+    <div id="tab-commands" class="tab-content" role="tabpanel" aria-labelledby="tab-commands-label">
+        <h1 id="tab-commands-label">Comandos Úteis</h1>
+
+        <div class="backup-area">
+            <button class="btn-outline" onclick="CommandsManager.export()" aria-label="Backup">💾 Backup</button>
+            <button class="btn-outline" onclick="document.getElementById('commandsImport').click()" aria-label="Restaurar">📂 Restaurar</button>
+            <input type="file" id="commandsImport" accept=".json" style="display: none;" onchange="CommandsManager.import(this)" aria-hidden="true">
+        </div>
+
+        <div class="input-container">
+            <input type="search" id="commandSearch" placeholder="🔍 Pesquisar comandos..." onkeyup="CommandsManager.render()" aria-label="Pesquisar">
+            <input type="text" id="commandTitleInput" placeholder="Título do Comando..." aria-label="Título">
+            
+            <div class="editor-container">
+                <div class="toolbar" role="toolbar">
+                    <button onclick="AppManager.formatText('bold')"><b>B</b></button>
+                    <button onclick="AppManager.formatText('italic')"><i>I</i></button>
+                    <button onclick="AppManager.formatText('underline')"><u>U</u></button>
+                </div>
+                <div id="commandTextInput" class="rich-editor" contenteditable="true" placeholder="Cole/componha o comando aqui..." role="textbox"></div>
+            </div>
+            <button class="add-btn" id="commandSaveButton" onclick="CommandsManager.add()">Salvar Comando</button>
+        </div>
+
+        <div class="items-grid" id="commandsGrid" role="region"></div>
+    </div>
+
+    <div id="toast" role="status" aria-live="polite">Sucesso!</div>
+
+    <script>
+        // ============================================
+        // CONSTANTES E CONFIGURAÇÕES GLOBAIS
+        // ============================================
+        
+        const CONFIG = {
+            STORAGE_KEY_PROMPTS: 'myPrompts',
+            STORAGE_KEY_COMMANDS: 'myCommands',
+            STORAGE_KEY_DARK_MODE: 'kb_darkMode',
+            STORAGE_KEY_BG: 'kb_background_image',
+            DB_NAME: 'KB_Database_Integrated',
+            DB_STORE: 'tutorials',
+            TAGS_KEY: 'KB_Tags_Integrated',
+            MAX_BG_SIZE_BYTES: 1.5 * 1024 * 1024, // Limite de segurança de 1.5MB p/ LocalStorage
+            DEFAULT_TAGS: [
+                { id: 't1', name: 'Redes', color: '#e74c3c' },
+                { id: 't2', name: 'Zabbix', color: '#e67e22' }
+            ]
+        };
+
+        // ============================================
+        // UTILIDADES DE SEGURANÇA E AUXILIARES
+        // ============================================
+        
+        const SecurityUtils = {
+            sanitizeText(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            },
+            isValidURL(url) {
+                try { new URL(url); return true; } catch { return false; }
+            },
+            isValidCSSValue(value) {
+                const validPattern = /^(\d+(\.\d+)?(px|%|em|rem|vh|vw))$/;
+                return validPattern.test(value);
+            }
+        };
+
+        // ============================================
+        // GERENCIADOR DE APLICAÇÃO
+        // ============================================
+        
+        const AppManager = {
+            currentTab: 'prompts',
+
+            // CORREÇÃO: Argumento 'e' (event) adicionado para compatibilidade Firefox
+            switchTab(tabId, e) {
+                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                document.querySelectorAll('[role="tab"]').forEach(item => {
+                    item.classList.remove('active');
+                    item.setAttribute('aria-selected', 'false');
+                });
+                
+                document.getElementById('tab-' + tabId).classList.add('active');
+                
+                // Uso seguro de e.currentTarget
+                if (e && e.currentTarget) {
+                    e.currentTarget.classList.add('active');
+                    e.currentTarget.setAttribute('aria-selected', 'true');
+                }
+                
+                this.currentTab = tabId;
+                if (tabId === 'prompts') PromptsManager.render();
+                if (tabId === 'tutorials') TutorialsManager.render();
+                if (tabId === 'commands') CommandsManager.render();
+            },
+
+            toggleDarkMode() {
+                const isDark = document.body.classList.toggle('dark-mode');
+                localStorage.setItem(CONFIG.STORAGE_KEY_DARK_MODE, isDark ? 'enabled' : 'disabled');
+                document.getElementById('modeIcon').textContent = isDark ? '☀️' : '🌙';
+            },
+
+            showToast(msg) {
+                const t = document.getElementById("toast");
+                t.textContent = msg || "Sucesso!";
+                t.classList.add("show");
+                setTimeout(() => t.classList.remove("show"), 2500);
+            },
+
+            formatText(cmd) {
+                document.execCommand(cmd, false, null);
+                // Retornar foco ao editor
+                const activeEditor = document.activeElement;
+                if(activeEditor && activeEditor.classList.contains('rich-editor')) {
+                    activeEditor.focus();
+                }
+            },
+
+            triggerBgUpload() {
+                document.getElementById('bgBodyInput').click();
+            },
+
+            handleBgUpload(input) {
+                if (input.files && input.files[0]) {
+                    const file = input.files[0];
+                    
+                    // MELHORIA: Checagem de tamanho ANTES de ler o arquivo
+                    if (file.size > CONFIG.MAX_BG_SIZE_BYTES) {
+                        AppManager.showToast('Imagem muito grande (> 1.5MB). Não será salva, mas aplicada temporariamente.');
+                        // Carrega apenas para visualização temporária
+                        const tempReader = new FileReader();
+                        tempReader.onload = e => { document.body.style.backgroundImage = `url('${e.target.result}')`; };
+                        tempReader.readAsDataURL(file);
+                        return;
+                    }
+
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imageData = e.target.result;
+                        document.body.style.backgroundImage = `url('${imageData}')`;
+                        
+                        try {
+                            localStorage.setItem(CONFIG.STORAGE_KEY_BG, imageData);
+                            AppManager.showToast('Plano de fundo salvo!');
+                        } catch (err) {
+                            console.error('Storage full:', err);
+                            AppManager.showToast('Erro: Espaço cheio! Imagem não salva.');
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                }
+            },
+
+            loadBackground() {
+                try {
+                    const bg = localStorage.getItem(CONFIG.STORAGE_KEY_BG);
+                    if (bg) {
+                        document.body.style.backgroundImage = `url('${bg}')`;
+                    }
+                } catch (err) {
+                    console.error('Erro ao carregar background:', err);
+                }
+            }
+        };
+
+        // ============================================
+        // GERENCIADOR DE PROMPTS
+        // ============================================
+        
+        const PromptsManager = {
+            editingId: null,
+
+            getFromStorage() {
+                try {
+                    const data = localStorage.getItem(CONFIG.STORAGE_KEY_PROMPTS);
+                    return data ? JSON.parse(data) : [];
+                } catch (err) { return []; }
+            },
+
+            saveToStorage(prompts) {
+                try {
+                    localStorage.setItem(CONFIG.STORAGE_KEY_PROMPTS, JSON.stringify(prompts));
+                } catch (err) {
+                    AppManager.showToast('Erro crítico ao salvar! Espaço cheio?');
+                }
+            },
+
+            add() {
+                const title = document.getElementById('promptTitleInput').value.trim();
+                const text = document.getElementById('promptTextInput').innerHTML;
+
+                if (!title || !text.replace(/<[^>]*>/g, '').trim()) {
+                    alert("Preencha título e conteúdo.");
+                    return;
+                }
+
+                let prompts = this.getFromStorage();
+                if (this.editingId) {
+                    prompts = prompts.map(p => p.id === this.editingId ? { ...p, title, text } : p);
+                } else {
+                    prompts.push({ id: Date.now(), title, text, isPinned: false });
+                }
+
+                this.saveToStorage(prompts);
+                this.resetForm();
+                this.render();
+                AppManager.showToast("Prompt salvo!");
+            },
+
+            resetForm() {
+                document.getElementById('promptTitleInput').value = '';
+                document.getElementById('promptTextInput').innerHTML = '';
+                this.editingId = null;
+                const btn = document.getElementById('promptSaveButton');
+                btn.textContent = 'Salvar Novo Prompt';
+                btn.style.backgroundColor = 'var(--accent)';
+            },
+
+            edit(id) {
+                const prompts = this.getFromStorage();
+                const p = prompts.find(x => x.id === id);
+                if (!p) return;
+                this.editingId = id;
+                document.getElementById('promptTitleInput').value = p.title;
+                document.getElementById('promptTextInput').innerHTML = p.text;
+                const btn = document.getElementById('promptSaveButton');
+                btn.textContent = 'Atualizar Prompt';
+                btn.style.backgroundColor = 'var(--success)';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            },
+
+            delete(id) {
+                if (!confirm("Deseja apagar este prompt?")) return;
+                let prompts = this.getFromStorage();
+                prompts = prompts.filter(p => p.id !== id);
+                this.saveToStorage(prompts);
+                this.render();
+            },
+
+            togglePin(id) {
+                let prompts = this.getFromStorage();
+                prompts = prompts.map(p => p.id === id ? { ...p, isPinned: !p.isPinned } : p);
+                this.saveToStorage(prompts);
+                this.render();
+            },
+
+            async copy(btn, id) {
+                const prompts = this.getFromStorage();
+                const p = prompts.find(x => x.id === id);
+                if (!p) return;
+                
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = p.text;
+                const textToCopy = tempDiv.innerText || tempDiv.textContent;
+                
+                try {
+                    const blobHtml = new Blob([p.text], { type: 'text/html' });
+                    const blobText = new Blob([textToCopy], { type: 'text/plain' });
+                    await navigator.clipboard.write([new ClipboardItem({ 'text/html': blobHtml, 'text/plain': blobText })]);
+                } catch {
+                    await navigator.clipboard.writeText(textToCopy);
+                }
+                
+                // Feedback visual no botão
+                const originalText = btn.textContent;
+                btn.textContent = "Copiado!";
+                btn.classList.add("copied");
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.classList.remove("copied");
+                }, 1500);
+            },
+
+            render() {
+                const grid = document.getElementById('promptGrid');
+                const search = document.getElementById('promptSearch').value.toLowerCase();
+                let prompts = this.getFromStorage();
+
+                if (search) {
+                    prompts = prompts.filter(p => 
+                        p.title.toLowerCase().includes(search) || 
+                        p.text.replace(/<[^>]*>/g, '').toLowerCase().includes(search)
+                    );
+                }
+
+                prompts.sort((a, b) => {
+                    if (a.isPinned !== b.isPinned) return b.isPinned - a.isPinned;
+                    return a.title.localeCompare(b.title, 'pt-BR', { sensitivity: 'base' });
+                });
+
+                grid.innerHTML = '';
+                if (prompts.length === 0) {
+                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; opacity: 0.5;">Nenhum prompt encontrado.</p>';
+                    return;
+                }
+
+                const fragment = document.createDocumentFragment();
+                prompts.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = `card-prompt ${p.isPinned ? 'is-pinned' : ''}`;
+                    card.innerHTML = `
+                        <div class="top-actions">
+                            <button class="btn-top-icon" onclick="PromptsManager.togglePin(${p.id})" title="${p.isPinned ? 'Desafixar' : 'Fixar'}">${p.isPinned ? '📌' : '📍'}</button>
+                            <button class="btn-top-icon" onclick="PromptsManager.delete(${p.id})" title="Excluir">🗑️</button>
+                        </div>
+                        <h3>${SecurityUtils.sanitizeText(p.title)}</h3>
+                        <div class="card-content">${p.text}</div>
+                        <div class="actions">
+                            <button class="btn-action btn-copy" onclick="PromptsManager.copy(this, ${p.id})">Copiar</button>
+                            <button class="btn-action btn-edit" onclick="PromptsManager.edit(${p.id})">Editar</button>
+                        </div>
+                    `;
+                    fragment.appendChild(card);
+                });
+                grid.appendChild(fragment);
+            },
+
+            export() {
+                const data = this.getFromStorage();
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `backup_prompts_${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                URL.revokeObjectURL(a.href);
+            },
+
+            import(input) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    try {
+                        const imported = JSON.parse(e.target.result);
+                        if (Array.isArray(imported)) {
+                            this.saveToStorage(imported);
+                            this.render();
+                            AppManager.showToast("Importado com sucesso!");
+                        }
+                    } catch { alert("Arquivo inválido."); }
+                };
+                if(input.files[0]) reader.readAsText(input.files[0]);
+            }
+        };
+
+        // ============================================
+        // GERENCIADOR DE COMANDOS
+        // ============================================
+        const CommandsManager = {
+            editingId: null,
+
+            getFromStorage() {
+                try {
+                    const data = localStorage.getItem(CONFIG.STORAGE_KEY_COMMANDS);
+                    return data ? JSON.parse(data) : [];
+                } catch { return []; }
+            },
+
+            saveToStorage(cmds) {
+                try { localStorage.setItem(CONFIG.STORAGE_KEY_COMMANDS, JSON.stringify(cmds)); } catch(e) { AppManager.showToast('Erro ao salvar comando.'); }
+            },
+
+            add() {
+                const title = document.getElementById('commandTitleInput').value.trim();
+                const text = document.getElementById('commandTextInput').innerHTML;
+
+                if (!title || !text.replace(/<[^>]*>/g, '').trim()) {
+                    alert("Preencha título e comando.");
+                    return;
+                }
+
+                let cmds = this.getFromStorage();
+                if (this.editingId) {
+                    cmds = cmds.map(p => p.id === this.editingId ? { ...p, title, text } : p);
+                } else {
+                    cmds.push({ id: Date.now(), title, text, isPinned: false });
+                }
+
+                this.saveToStorage(cmds);
+                this.resetForm();
+                this.render();
+                AppManager.showToast("Comando salvo!");
+            },
+
+            resetForm() {
+                document.getElementById('commandTitleInput').value = '';
+                document.getElementById('commandTextInput').innerHTML = '';
+                this.editingId = null;
+                const btn = document.getElementById('commandSaveButton');
+                btn.textContent = 'Salvar Comando';
+                btn.style.backgroundColor = 'var(--accent)';
+            },
+
+            edit(id) {
+                const cmds = this.getFromStorage();
+                const p = cmds.find(x => x.id === id);
+                if (!p) return;
+                this.editingId = id;
+                document.getElementById('commandTitleInput').value = p.title;
+                document.getElementById('commandTextInput').innerHTML = p.text;
+                const btn = document.getElementById('commandSaveButton');
+                btn.textContent = 'Atualizar Comando';
+                btn.style.backgroundColor = 'var(--success)';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            },
+
+            delete(id) {
+                if (!confirm("Deseja apagar este comando?")) return;
+                let cmds = this.getFromStorage();
+                cmds = cmds.filter(p => p.id !== id);
+                this.saveToStorage(cmds);
+                this.render();
+            },
+
+            togglePin(id) {
+                let cmds = this.getFromStorage();
+                cmds = cmds.map(p => p.id === id ? { ...p, isPinned: !p.isPinned } : p);
+                this.saveToStorage(cmds);
+                this.render();
+            },
+
+            async copy(btn, id) {
+                const cmds = this.getFromStorage();
+                const p = cmds.find(x => x.id === id);
+                if (!p) return;
+                
+                const tempDiv = document.createElement("div");
+                tempDiv.innerHTML = p.text;
+                const textToCopy = tempDiv.innerText || tempDiv.textContent;
+                
+                try {
+                    await navigator.clipboard.writeText(textToCopy);
+                } catch(e) { console.error(e); }
+
+                // Feedback visual
+                const originalText = btn.innerText;
+                btn.innerText = "OK";
+                btn.style.color = "#fff";
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.style.color = "";
+                }, 1000);
+            },
+
+            render() {
+                const grid = document.getElementById('commandsGrid');
+                const search = document.getElementById('commandSearch').value.toLowerCase();
+                let cmds = this.getFromStorage();
+
+                if (search) {
+                    cmds = cmds.filter(p => 
+                        p.title.toLowerCase().includes(search) || 
+                        p.text.replace(/<[^>]*>/g, '').toLowerCase().includes(search)
+                    );
+                }
+
+                cmds.sort((a, b) => {
+                    if (a.isPinned !== b.isPinned) return b.isPinned - a.isPinned;
+                    return a.title.localeCompare(b.title, 'pt-BR', { sensitivity: 'base' });
+                });
+
+                grid.innerHTML = '';
+                if (cmds.length === 0) {
+                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; opacity: 0.5;">Nenhum comando encontrado.</p>';
+                    return;
+                }
+
+                const fragment = document.createDocumentFragment();
+                cmds.forEach(p => {
+                    const card = document.createElement('div');
+                    card.className = `card-command ${p.isPinned ? 'is-pinned' : ''}`;
+                    const safeTitle = SecurityUtils.sanitizeText(p.title);
+                    
+                    const temp = document.createElement('div');
+                    temp.innerHTML = p.text;
+                    const textContent = temp.innerText || temp.textContent || '';
+                    const lines = textContent.split(/\r?\n/).filter(Boolean);
+
+                    let terminalHtml = '';
+                    if (lines.length === 0) terminalHtml = '<div class="terminal-line"><span class="terminal-prompt">$</span> <span>...</span></div>';
+                    else {
+                        lines.forEach((ln, idx) => {
+                            terminalHtml += `<div class="terminal-line"><span class="terminal-prompt">${idx===0 ? '$' : '>'}</span>${SecurityUtils.sanitizeText(ln)}</div>`;
+                        });
+                    }
+
+                    card.innerHTML = `
+                        <h3>${safeTitle}</h3>
+                        <div class="terminal-area">${terminalHtml}</div>
+                        
+                        <div class="command-actions">
+                            <button class="btn-terminal copy" onclick="CommandsManager.copy(this, ${p.id})">Copiar</button>
+                            <button class="btn-terminal edit" onclick="CommandsManager.edit(${p.id})">Editar</button>
+                            <button class="btn-terminal" onclick="CommandsManager.togglePin(${p.id})">${p.isPinned ? '📌' : '📍'}</button>
+                            <button class="btn-terminal" onclick="CommandsManager.delete(${p.id})">🗑️</button>
+                        </div>
+                    `;
+                    fragment.appendChild(card);
+                });
+                grid.appendChild(fragment);
+            },
+
+            export() {
+                const data = this.getFromStorage();
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `backup_comandos_${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                URL.revokeObjectURL(a.href);
+            },
+
+            import(input) {
+                const reader = new FileReader();
+                reader.onload = e => {
+                    try {
+                        const imported = JSON.parse(e.target.result);
+                        if (Array.isArray(imported)) {
+                            this.saveToStorage(imported);
+                            this.render();
+                            AppManager.showToast("Importado com sucesso!");
+                        }
+                    } catch { alert("Erro ao importar."); }
+                };
+                if(input.files[0]) reader.readAsText(input.files[0]);
+            }
+        };
+
+        // ============================================
+        // GERENCIADOR DE TUTORIAIS
+        // ============================================
+        
+        const TutorialsManager = {
+            db: null,
+            editingId: null,
+            selectedTagIds: [],
+
+            async initDB() {
+                return new Promise((resolve, reject) => {
+                    const req = indexedDB.open(CONFIG.DB_NAME, 1);
+                    req.onerror = () => reject('Erro IndexedDB');
+                    req.onupgradeneeded = e => {
+                        const db = e.target.result;
+                        if (!db.objectStoreNames.contains(CONFIG.DB_STORE)) db.createObjectStore(CONFIG.DB_STORE, { keyPath: "id" });
+                    };
+                    req.onsuccess = e => { 
+                        this.db = e.target.result;
+                        document.getElementById('dbStatus').textContent = "🟢 Armazenamento Local Pronto";
+                        resolve();
+                    };
+                });
+            },
+
+            async dbSave(item) {
+                return new Promise((resolve, reject) => {
+                    const tx = this.db.transaction(CONFIG.DB_STORE, "readwrite");
+                    tx.objectStore(CONFIG.DB_STORE).put(item);
+                    tx.oncomplete = () => resolve();
+                    tx.onerror = () => reject();
+                });
+            },
+
+            async dbGetAll() {
+                return new Promise((resolve) => {
+                    const tx = this.db.transaction(CONFIG.DB_STORE, "readonly");
+                    const req = tx.objectStore(CONFIG.DB_STORE).getAll();
+                    req.onsuccess = e => resolve(e.target.result || []);
+                    req.onerror = () => resolve([]);
+                });
+            },
+
+            getTags() {
+                try { return JSON.parse(localStorage.getItem(CONFIG.TAGS_KEY)) || CONFIG.DEFAULT_TAGS; } catch { return CONFIG.DEFAULT_TAGS; }
+            },
+
+            saveTags(tags) {
+                localStorage.setItem(CONFIG.TAGS_KEY, JSON.stringify(tags));
+            },
+
+            openTagModal() {
+                document.getElementById('tagModal').classList.add('active');
+                document.getElementById('tagModalName').focus();
+            },
+            closeTagModal() { document.getElementById('tagModal').classList.remove('active'); },
+
+            createTagFromModal() {
+                const name = document.getElementById('tagModalName').value.trim();
+                const color = document.getElementById('tagModalColor').value;
+                if (!name) return;
+                const tags = this.getTags();
+                tags.push({ id: 'tag_' + Date.now(), name, color });
+                this.saveTags(tags);
+                this.closeTagModal();
+                this.renderTagsSelection();
+            },
+
+            deleteTag(e, id) {
+                // CORREÇÃO: Uso de stopPropagation seguro
+                if(e && e.stopPropagation) e.stopPropagation();
+                if (!confirm("Excluir tag?")) return;
+                const tags = this.getTags().filter(t => t.id !== id);
+                this.saveTags(tags);
+                this.selectedTagIds = this.selectedTagIds.filter(tid => tid !== id);
+                this.renderTagsSelection();
+            },
+
+            renderTagsSelection() {
+                const div = document.getElementById('tagsSelectionArea');
+                div.innerHTML = '';
+                const tags = this.getTags();
+                const fragment = document.createDocumentFragment();
+                tags.forEach(t => {
+                    const isSel = this.selectedTagIds.includes(t.id);
+                    const el = document.createElement('div');
+                    el.className = `tag-chip ${isSel ? 'selected' : ''}`;
+                    el.style.backgroundColor = t.color;
+                    el.innerHTML = `${SecurityUtils.sanitizeText(t.name)} <span style="margin-left:5px;opacity:0.5;font-size:10px;">✕</span>`;
+                    
+                    // Event Handling manual para evitar problemas de propagação
+                    el.querySelector('span').addEventListener('click', (ev) => this.deleteTag(ev, t.id));
+                    
+                    el.addEventListener('click', (e) => {
+                        if(e.target.tagName === 'SPAN') return;
+                        const idx = this.selectedTagIds.indexOf(t.id);
+                        if (idx > -1) this.selectedTagIds.splice(idx, 1);
+                        else this.selectedTagIds.push(t.id);
+                        this.renderTagsSelection();
+                    });
+                    
+                    fragment.appendChild(el);
+                });
+                div.appendChild(fragment);
+                this.updateBorder();
+            },
+
+            updateBorder() {
+                const tags = this.getTags();
+                const container = document.getElementById('tutorialInputContainer');
+                if (this.selectedTagIds.length > 0) {
+                    const first = tags.find(t => t.id === this.selectedTagIds[0]);
+                    if (first) container.style.borderLeftColor = first.color;
+                } else {
+                    container.style.borderLeftColor = 'var(--accent)';
+                }
+            },
+
+            async add() {
+                const title = document.getElementById('tutorialTitleInput').value.trim();
+                const content = document.getElementById('tutorialTextInput').innerHTML;
+                if (!title) return alert("Título obrigatório");
+
+                const item = {
+                    id: this.editingId || Date.now(),
+                    title, content,
+                    tags: [...this.selectedTagIds],
+                    isPinned: false
+                };
+                
+                if (this.editingId) {
+                    const all = await this.dbGetAll();
+                    const old = all.find(x => x.id === this.editingId);
+                    if(old) item.isPinned = old.isPinned;
+                }
+
+                await this.dbSave(item);
+                AppManager.showToast("Procedimento salvo!");
+                this.resetForm();
+                this.render();
+            },
+
+            resetForm() {
+                this.editingId = null;
+                this.selectedTagIds = [];
+                document.getElementById('tutorialTitleInput').value = '';
+                document.getElementById('tutorialTextInput').innerHTML = '';
+                document.getElementById('tutorialSaveButton').textContent = "Salvar Procedimento";
+                this.renderTagsSelection();
+            },
+
+            async edit(id) {
+                const all = await this.dbGetAll();
+                const t = all.find(x => x.id === id);
+                if (!t) return;
+                this.editingId = id;
+                document.getElementById('tutorialTitleInput').value = t.title;
+                document.getElementById('tutorialTextInput').innerHTML = t.content;
+                this.selectedTagIds = t.tags ? [...t.tags] : [];
+                this.renderTagsSelection();
+                document.getElementById('tutorialSaveButton').textContent = "Atualizar Procedimento";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            },
+
+            // CORREÇÃO: Argumento (e) para stopPropagation
+            async togglePin(e, id) {
+                if(e && e.stopPropagation) e.stopPropagation();
+                const all = await this.dbGetAll();
+                const item = all.find(x => x.id === id);
+                if (item) {
+                    item.isPinned = !item.isPinned;
+                    await this.dbSave(item);
+                    this.render();
+                }
+            },
+
+            // CORREÇÃO: Argumento (e) para stopPropagation
+            async delete(e, id) {
+                if(e && e.stopPropagation) e.stopPropagation();
+                if (!confirm("Excluir este tutorial?")) return;
+                const tx = this.db.transaction(CONFIG.DB_STORE, "readwrite");
+                tx.objectStore(CONFIG.DB_STORE).delete(id);
+                tx.oncomplete = () => this.render();
+            },
+
+            triggerImageUpload() { document.getElementById('imgUpload').click(); },
+            
+            handleImageUpload(input) {
+                if (input.files[0]) {
+                    const r = new FileReader();
+                    r.onload = e => this.insertImg(e.target.result);
+                    r.readAsDataURL(input.files[0]);
+                }
+            },
+
+            triggerUrlImage() {
+                const url = prompt("Link da imagem:");
+                if (url && SecurityUtils.isValidURL(url)) this.insertImg(url);
+                else if (url) alert("URL inválida");
+            },
+
+            insertImg(src) {
+                // OTIMIZAÇÃO: lazy load inserido na criação para evitar regex no render
+                const img = `<img src="${src}" loading="lazy" style="width:80%;display:block;margin:10px auto;" alt="Imagem do tutorial">`;
+                document.execCommand('insertHTML', false, img);
+            },
+
+            imgZoom(e) {
+                if (e.target.tagName === 'IMG') {
+                    if (e.altKey || e.shiftKey) {
+                        const currentW = e.target.style.width || "80%";
+                        const newW = prompt("Redimensionar imagem (visualização) - Largura:", currentW);
+                        if (newW && SecurityUtils.isValidCSSValue(newW)) {
+                            e.target.style.width = newW;
+                            e.target.style.height = "auto";
+                        }
+                    } else {
+                        document.getElementById('lightbox').style.display = 'flex';
+                        document.getElementById('lightboxImg').src = e.target.src;
+                    }
+                }
+            },
+
+            async render() {
+                const grid = document.getElementById('tutorialGrid');
+                const term = document.getElementById('tutorialSearch').value.toLowerCase();
+                const allTags = this.getTags();
+                let data = await this.dbGetAll();
+
+                if (term) {
+                    data = data.filter(t =>
+                        t.title.toLowerCase().includes(term) ||
+                        t.content.toLowerCase().includes(term)
+                    );
+                }
+                data.sort((a, b) => (b.isPinned - a.isPinned) || (b.id - a.id));
+
+                grid.innerHTML = '';
+                if (data.length === 0) {
+                    grid.innerHTML = '<p style="text-align: center; opacity: 0.5;">Nenhum procedimento encontrado.</p>';
+                    return;
+                }
+
+                const fragment = document.createDocumentFragment();
+                data.forEach(t => {
+                    const card = document.createElement('div');
+                    card.className = `card-tutorial ${t.isPinned ? 'is-pinned' : ''}`;
+
+                    let cardColor = 'var(--accent)';
+                    let tagsHtml = '';
+                    if (t.tags && t.tags.length > 0) {
+                        const first = allTags.find(x => x.id === t.tags[0]);
+                        if (first) cardColor = first.color;
+                        t.tags.forEach(tid => {
+                            const tag = allTags.find(x => x.id === tid);
+                            if (tag) tagsHtml += `<span class="card-tag-small" style="background:${tag.color}">${SecurityUtils.sanitizeText(tag.name)}</span>`;
+                        });
+                    }
+
+                    card.style.borderLeftColor = cardColor;
+                    
+                    // Renderização simplificada (lazy load já garantido na inserção)
+                    card.innerHTML = `
+                        <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
+                            <div class="card-title-area">
+                                <h3 style="color: ${cardColor === 'var(--accent)' ? 'var(--primary)' : cardColor}">${SecurityUtils.sanitizeText(t.title)}</h3>
+                            </div>
+                            <div style="display:flex; align-items:center;">
+                                <div class="card-tags">${tagsHtml}</div>
+                                <div class="card-options">
+                                    <button class="btn-opt ${t.isPinned ? 'active' : ''}" onclick="TutorialsManager.togglePin(event, ${t.id})">📌</button>
+                                    <button class="btn-opt" onclick="TutorialsManager.delete(event, ${t.id})">🗑️</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-content" onclick="TutorialsManager.imgZoom(event)">${t.content}</div>
+                            <div class="card-footer"><button class="btn-outline" onclick="TutorialsManager.edit(${t.id})">Editar</button></div>
+                        </div>
+                    `;
+                    fragment.appendChild(card);
+                });
+                grid.appendChild(fragment);
+            },
+
+            async export() {
+                const data = { tutorials: await this.dbGetAll(), tags: this.getTags() };
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `backup_tutoriais_${new Date().toISOString().split('T')[0]}.json`;
+                a.click();
+                URL.revokeObjectURL(a.href);
+            },
+
+            import(inp) {
+                const r = new FileReader();
+                r.onload = async e => {
+                    try {
+                        const j = JSON.parse(e.target.result);
+                        if (j.tags) this.saveTags(j.tags);
+                        if (j.tutorials) for (const t of j.tutorials) await this.dbSave(t);
+                        this.render();
+                        this.renderTagsSelection();
+                        AppManager.showToast("Importado!");
+                    } catch { alert("Arquivo inválido."); }
+                };
+                if(inp.files[0]) r.readAsText(inp.files[0]);
+            }
+        };
+
+        // ============================================
+        // INICIALIZAÇÃO E EVENTOS GLOBAIS
+        // ============================================
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.getElementById('tagModal').classList.remove('active');
+                document.getElementById('lightbox').style.display = 'none';
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (localStorage.getItem(CONFIG.STORAGE_KEY_DARK_MODE) === 'enabled') AppManager.toggleDarkMode();
+            AppManager.loadBackground();
+            
+            await TutorialsManager.initDB();
+            PromptsManager.render();
+            TutorialsManager.renderTagsSelection();
+            TutorialsManager.render();
+            CommandsManager.render();
+            
+            // Event Listeners para Editores
+            document.querySelectorAll('.rich-editor').forEach(editor => {
+                editor.addEventListener('click', e => {
+                    if (e.target.tagName === 'IMG') {
+                        const currentW = e.target.style.width || "80%";
+                        const newW = prompt("Redimensionar imagem - Digite a largura (ex: 50%, 100%, 400px):", currentW);
+                        if (newW && SecurityUtils.isValidCSSValue(newW)) {
+                            e.target.style.width = newW;
+                            e.target.style.height = "auto";
+                        }
+                    }
+                });
+
+                // PASTE HANDLER OTIMIZADO
+                editor.addEventListener('paste', e => {
+                    const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                    for (let i in items) {
+                        if (items[i].kind === 'file') {
+                            e.preventDefault();
+                            const reader = new FileReader();
+                            reader.onload = ev => {
+                                // Insere diretamente com lazy load
+                                document.execCommand('insertHTML', false, `<img src="${ev.target.result}" loading="lazy" style="width:80%;display:block;margin:10px auto;">`);
+                            };
+                            reader.readAsDataURL(items[i].getAsFile());
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
