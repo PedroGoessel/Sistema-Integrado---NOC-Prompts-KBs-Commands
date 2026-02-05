@@ -41,7 +41,7 @@ O projeto foi construído com a filosofia "No-Build", ou seja, não requer compi
 
 ## 🤝 Contribuição
 
-Sinta-se à vontade para fazer um fork e submeter Pull Requests. Sugestões de melhorias no CSS ou otimizações no IndexedDB são bem-vindas.
+Sinta-se à vontade para fazer um fork e Pull Requests. Sugestões de melhorias no CSS ou otimizações no IndexedDB são bem-vindas.
 
 ## 📄 Licença
 
