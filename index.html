@@ -214,6 +214,7 @@
         .rich-editor img { 
             max-width: 100%; height: auto; border-radius: 4px; margin: 10px 0; 
             border: 2px solid transparent; cursor: pointer; transition: border-color 0.2s; 
+            display: inline-block;
         }
         .rich-editor img:hover { border-color: var(--accent); }
         
@@ -443,6 +444,9 @@
                     <button onclick="AppManager.formatText('bold')"><b>B</b></button>
                     <button onclick="AppManager.formatText('italic')"><i>I</i></button>
                     <button onclick="AppManager.formatText('underline')"><u>U</u></button>
+                    <button onclick="AppManager.formatText('justifyLeft')" title="Alinhar Esquerda">⬅️</button>
+                    <button onclick="AppManager.formatText('justifyCenter')" title="Alinhar Centro">↔️</button>
+                    <button onclick="AppManager.formatText('justifyRight')" title="Alinhar Direita">➡️</button>
                     <button onclick="AppManager.formatText('insertUnorderedList')">• Lista</button>
                     <button onclick="AppManager.formatText('insertOrderedList')">1. Lista</button>
                 </div>
@@ -477,6 +481,9 @@
                     <button onclick="AppManager.formatText('bold')"><b>B</b></button>
                     <button onclick="AppManager.formatText('italic')"><i>I</i></button>
                     <button onclick="AppManager.formatText('underline')"><u>U</u></button>
+                    <button onclick="AppManager.formatText('justifyLeft')" title="Alinhar Esquerda">⬅️</button>
+                    <button onclick="AppManager.formatText('justifyCenter')" title="Alinhar Centro">↔️</button>
+                    <button onclick="AppManager.formatText('justifyRight')" title="Alinhar Direita">➡️</button>
                     <button onclick="AppManager.formatText('insertUnorderedList')">• Lista</button>
                     <button onclick="AppManager.formatText('insertOrderedList')">1. Lista</button>
                     <button onclick="TutorialsManager.triggerImageUpload()" title="Upload Imagem">🖼️ Upload</button>
@@ -1058,7 +1065,12 @@
             },
 
             getTags() {
-                try { return JSON.parse(localStorage.getItem(CONFIG.TAGS_KEY)) || CONFIG.DEFAULT_TAGS; } catch { return CONFIG.DEFAULT_TAGS; }
+                try { 
+                    const tags = JSON.parse(localStorage.getItem(CONFIG.TAGS_KEY));
+                    return Array.isArray(tags) ? tags : CONFIG.DEFAULT_TAGS;
+                } catch { 
+                    return CONFIG.DEFAULT_TAGS; 
+                }
             },
 
             saveTags(tags) {
@@ -1094,8 +1106,11 @@
 
             renderTagsSelection() {
                 const div = document.getElementById('tagsSelectionArea');
+                if (!div) return;
                 div.innerHTML = '';
-                const tags = this.getTags();
+                const tags = this.getTags() || [];
+                if (!Array.isArray(tags)) return;
+                
                 const fragment = document.createDocumentFragment();
                 tags.forEach(t => {
                     const isSel = this.selectedTagIds.includes(t.id);
