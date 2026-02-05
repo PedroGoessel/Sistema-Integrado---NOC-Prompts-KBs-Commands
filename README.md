@@ -1,4 +1,4 @@
-# 🚀 Sistema Integrado - Knowledge Base, Prompts and Commands Manager
+# 🚀 Sistema Integrado - Knowledge Base, AI Prompts and Commands Manager
 
 Uma **Single Page Application (SPA)** leve e autossuficiente para gerenciamento pessoal de conhecimento, prompts de IA e comandos de terminal. Desenvolvido para rodar inteiramente no navegador, sem necessidade de servidores, banco de dados externo ou instalação complexa.
 
