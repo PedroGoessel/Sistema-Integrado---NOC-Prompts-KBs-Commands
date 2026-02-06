@@ -32,9 +32,10 @@ Esta **Single Page Application (SPA)** foi desenvolvida para rodar inteiramente 
 ---
 
 ## 🚀 Como Usar
-> [!NOTE] **Requisitos**: Apenas um navegador moderno (Chrome, Firefox, Edge, Brave).
+> [!NOTE] 
+> **Requisitos**: Apenas um navegador moderno (Chrome, Firefox, Edge, Brave).
 
-1.  **Clone o repositório** (Ou apenas **baixe o arquivo index.html**):
+1.  **Clone o repositório** (Ou apenas <ins>baixe o arquivo</ins> _index.html_):
     ```bash
     git clone https://github.com/PedroGoessel/Prompts--KnowledgeBase--and--Commands--Manager.git
     ```
@@ -42,7 +43,7 @@ Esta **Single Page Application (SPA)** foi desenvolvida para rodar inteiramente 
 3.  **Lembre-se de realizar Backups:** Use a função de **Backup & Restore (JSON)** para garantir a segurança dos seus dados.
 
 > [!IMPORTANT]
-> **Nota sobre Armazenamento:** Como os dados ficam no cache do navegador, limpezas agressivas de histórico podem **apagar os dados**. Exporte seu Backup JSON regularmente!
+> **Nota sobre Armazenamento:** Como os dados ficam no cache do navegador, limpezas de cache irão **apagar os dados**. É recomendado que exporte seus Backups JSON sempre que adicionar um novo registro!
 
 ---
 
