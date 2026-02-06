@@ -36,7 +36,7 @@ Esta **Single Page Application (SPA)** foi desenvolvida para rodar inteiramente 
 
 1.  **Clone o repositório (Ou apenas baixe o arquivo index.html):**
     ```bash
-    git clone https://github.com/PedroGoessel/KnowledgeBase--Prompts--and--Commands-Manager.git
+    git clone https://github.com/PedroGoessel/Prompts--KnowledgeBase--and--Commands--Manager.git
     ```
 2.  **Abra o arquivo:** Basta abrir o `index.html` em qualquer navegador moderno (Chrome, Edge, Firefox, Brave).
 3.  **Backup:** Use a função de **Backup & Restore (JSON)** para garantir a segurança dos seus dados ao trocar de máquina.
