@@ -32,7 +32,8 @@ Esta **Single Page Application (SPA)** foi desenvolvida para rodar inteiramente 
 ---
 
 ## 🚀 Como Usar
-> **Pré-requisitos**: Nenhum. Apenas um navegador moderno (Chrome, Firefox, Edge, Brave).
+> [!NOTE]
+> **Requisitos**: Apenas um navegador moderno (Chrome, Firefox, Edge, Brave).
 
 1.  **Clone o repositório** (Ou apenas **baixe o arquivo index.html**):
     ```bash
