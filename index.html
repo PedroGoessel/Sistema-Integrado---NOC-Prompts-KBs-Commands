@@ -3,138 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Integrado - Prompts, Procedimentos e Comandos</title>
+    <title>Sistema Integrado - NOC</title>
+    <!-- Importando fontes modernas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* ======================================= */
-        /* CONFIGURAÇÃO DE DESIGN "CORPORATE ZEN"  */
+        /*        RESET & CONFIGURAÇÕES GERAIS     */
         /* ======================================= */
+        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        
         :root {
-            --bg-color: #f7f9fc;
+            /* Cores e Temas - Corporate Zen (Refinado) */
+            --bg-color: #f8fafc;
             --card-bg: #ffffff;
             --primary: #2c3e50;
-            --accent: #1abc9c;
-            --accent-hover: #16a085;
-            --edit: #34495e;
-            --pin: #f39c12;
-            --text: #333333;
-            --shadow: 0 6px 20px rgba(0,0,0,0.08);
-            --radius: 10px;
-            --success: #2ecc71;
-            --delete-color: #e74c3c;
-            --toolbar-bg: #ecf0f1;
-            --icon-color: #7f8c8d;
+            --primary-light: #34495e;
+            --accent: #10b981; /* Verde esmeralda mais moderno */
+            --accent-hover: #059669;
+            --edit: #4b5563;
+            --pin: #f59e0b;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --radius: 12px;
+            --success: #10b981;
+            --delete-color: #ef4444;
+            --toolbar-bg: #f1f5f9;
+            --icon-color: #94a3b8;
             --input-bg: #ffffff;
-            --input-border: #e0e0e0;
-            --card-hover-shadow: 0 10px 25px rgba(0,0,0,0.15);
-            --pinned-bg: #ede9da;
-            --pinned-border: #f39c12;
-            --nav-bg: #2c3e50;
-            --nav-text: #ffffff;
+            --pinned-bg: #fffbeb;
+            --pinned-border: #fcd34d;
+            --nav-bg: #1e293b;
+            --nav-text: #f8fafc;
             
             /* Scrollbar vars */
-            --scroll-track: #ecf0f1;
-            --scroll-thumb: #bdc3c7;
-            --scroll-thumb-hover: #95a5a6;
+            --scroll-track: transparent;
+            --scroll-thumb: #cbd5e1;
+            --scroll-thumb-hover: #94a3b8;
         }
 
         body.dark-mode {
-            --bg-color: #1a1d23;
-            --card-bg: #242831;
-            --primary: #e8eaed;
-            --accent: #1abc9c;
-            --accent-hover: #16a085;
-            --edit: #6c8caf;
-            --pin: #f39c12;
-            --text: #c5c7ca;
-            --shadow: 0 6px 20px rgba(0,0,0,0.4);
-            --success: #2ecc71;
-            --delete-color: #e74c3c;
-            --toolbar-bg: #2f3540;
-            --icon-color: #8a8d91;
-            --input-bg: #2f3540;
-            --input-border: #3a3f4b;
-            --card-hover-shadow: 0 10px 25px rgba(0,0,0,0.6);
-            --pinned-bg: #2a2516;
-            --pinned-border: #f39c12;
-            --nav-bg: #14161a;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --primary: #e2e8f0;
+            --primary-light: #cbd5e1;
+            --accent: #10b981;
+            --accent-hover: #34d399;
+            --edit: #94a3b8;
+            --pin: #fbbf24;
+            --text: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            --toolbar-bg: #0f172a;
+            --icon-color: #64748b;
+            --input-bg: #0f172a;
+            --pinned-bg: #322a10;
+            --pinned-border: #b45309;
+            --nav-bg: #020617;
 
-            /* Scrollbar vars dark */
-            --scroll-track: #2f3540;
-            --scroll-thumb: #4b5563;
-            --scroll-thumb-hover: #6b7280;
+            --scroll-thumb: #475569;
+            --scroll-thumb-hover: #64748b;
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text);
             margin: 0;
             padding: 0;
             min-height: 100vh;
+            line-height: 1.6;
             transition: background-color 0.3s ease, color 0.3s ease;
-            
-            /* Configuração para imagem de fundo */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
         }
 
-        /* MELHORIA VISUAL: SCROLLBAR PERSONALIZADA */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        /* Scrollbar Melhorada */
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
         ::-webkit-scrollbar-track { background: var(--scroll-track); }
-        ::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--scroll-thumb-hover); }
+        ::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 5px; border: 2px solid transparent; background-clip: content-box; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--scroll-thumb-hover); border: 2px solid transparent; background-clip: content-box; }
 
-        /* MENU DE NAVEGAÇÃO */
+        /* ======================================= */
+        /*              NAVEGAÇÃO                  */
+        /* ======================================= */
         .main-nav {
             background-color: var(--nav-bg);
-            padding: 0 20px;
+            padding: 0 1rem;
             display: flex;
             justify-content: center;
             align-items: center;
             position: sticky;
             top: 0;
             z-index: 2000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            backdrop-filter: blur(5px);
+            box-shadow: var(--shadow-md);
+            backdrop-filter: blur(10px);
         }
 
         .nav-container {
             display: flex;
-            gap: 10px;
+            gap: 0.5rem;
             max-width: 1200px;
             width: 100%;
+            overflow-x: auto;
+            padding: 0.5rem 0;
         }
 
         .nav-item {
-            padding: 15px 20px;
+            background: transparent;
+            border: none;
+            padding: 0.75rem 1.25rem;
             color: var(--nav-text);
-            text-decoration: none;
-            font-weight: 600;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 500;
             cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: all 0.3s;
+            border-radius: var(--radius);
+            transition: all 0.2s ease;
             opacity: 0.7;
-            user-select: none;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .nav-item:hover {
-            opacity: 1;
-            background: rgba(255,255,255,0.1);
-        }
+        .nav-item:hover { opacity: 1; background: rgba(255,255,255,0.08); }
+        .nav-item.active { opacity: 1; background: rgba(255,255,255,0.15); color: #fff; font-weight: 600; box-shadow: 0 0 0 1px rgba(255,255,255,0.1); }
+        
+        /* Ajuste para ícones no nav */
+        .nav-icon { font-size: 1.1em; }
 
-        .nav-item.active {
-            opacity: 1;
-            border-bottom-color: var(--accent);
-        }
-
-        /* CONTAINER DE CONTEÚDO */
+        /* ======================================= */
+        /*              CONTEÚDO                   */
+        /* ======================================= */
         .tab-content {
             display: none;
-            padding: 40px 20px;
-            animation: fadeIn 0.4s ease;
-            will-change: opacity, transform;
+            padding: 2rem 1rem;
+            width: 100%;
+            max-width: 1400px; /* Largura um pouco menor para leitura melhor */
+            margin: 0 auto;
+            animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .tab-content.active {
@@ -143,408 +161,707 @@
             align-items: center;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* BOTÕES FLUTUANTES */
-        .dark-mode-toggle, .bg-image-toggle {
+        h1 {
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-align: center;
+            letter-spacing: -0.02em;
+        }
+
+        /* ======================================= */
+        /*          BOTÕES E CONTROLES             */
+        /* ======================================= */
+        /* Botões Flutuantes (Tema/Bg) */
+        .floating-btn {
             position: fixed;
-            right: 20px;
+            right: 1.5rem;
+            width: 3rem;
+            height: 3rem;
             background: var(--card-bg);
-            border: 1px solid var(--input-border);
+            border: 1px solid var(--border-color);
             color: var(--text);
-            padding: 10px;
             border-radius: 50%;
             cursor: pointer;
-            font-size: 18px;
-            box-shadow: var(--shadow);
-            z-index: 1000;
-            width: 45px;
-            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-lg);
+            z-index: 1000;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
         }
+        .dark-mode-toggle { bottom: 1.5rem; }
+        .bg-image-toggle { bottom: 5.5rem; }
+        .floating-btn:hover { transform: scale(1.1); box-shadow: 0 12px 20px -8px rgba(0,0,0,0.3); }
 
-        .dark-mode-toggle { bottom: 20px; }
-        .bg-image-toggle { bottom: 75px; }
-
-        .dark-mode-toggle:hover, .bg-image-toggle:hover { transform: scale(1.1); box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
-
-        /* ESTILOS GERAIS */
-        h1 { color: var(--primary); font-weight: 700; margin-bottom: 20px; letter-spacing: -0.8px; font-size: 2.2em; text-align: center; text-shadow: 0 1px 2px rgba(255,255,255,0.5); }
+        /* Botões Padrão */
+        button, .btn { font-family: inherit; }
         
-        .backup-area { display: flex; gap: 15px; margin-bottom: 20px; justify-content: center; width: 100%; }
+        .backup-area { display: flex; gap: 1rem; margin-bottom: 2rem; justify-content: center; flex-wrap: wrap; }
+        
         .btn-outline {
-            background: transparent; border: 1px solid var(--primary); color: var(--primary);
-            padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: 600;
-            display: flex; align-items: center; gap: 5px; transition: all 0.3s;
-            background-color: rgba(255, 255, 255, 0.6); backdrop-filter: blur(2px);
-        }
-        .btn-outline:hover { background-color: var(--primary); color: var(--card-bg); }
-
-        .input-container {
-            background: var(--card-bg); padding: 30px; border-radius: var(--radius);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); width: 100%; max-width: 800px; margin-bottom: 30px;
-            border-left: 5px solid var(--accent); transition: 0.3s;
-        }
-
-        input[type="text"], input[type="search"] {
-            width: 100%; padding: 15px; margin-bottom: 15px;
-            border: 1px solid var(--input-border); border-radius: 6px;
-            box-sizing: border-box; font-family: inherit; font-size: 15px; outline: none;
-            background-color: var(--input-bg); color: var(--text); transition: 0.3s;
-        }
-        input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2); }
-
-        /* EDITOR */
-        .editor-container { border: 1px solid var(--input-border); border-radius: 6px; margin-bottom: 18px; background-color: var(--input-bg); overflow: hidden; }
-        .toolbar { background-color: var(--toolbar-bg); padding: 5px; border-bottom: 1px solid var(--input-border); display: flex; gap: 5px; flex-wrap: wrap; }
-        .toolbar button { background: none; border: none; cursor: pointer; padding: 8px 10px; font-size: 14px; color: var(--icon-color); border-radius: 4px; display: flex; align-items: center; gap: 4px; }
-        .toolbar button:hover { background: rgba(0,0,0,0.05); color: var(--primary); }
-
-        .rich-editor { 
-            width: 100%; min-height: 200px; padding: 15px; box-sizing: border-box; outline: none; 
-            font-size: 15px; line-height: 1.6; background-color: var(--input-bg); color: var(--text); 
-            overflow-x: auto; 
-        }
-        .rich-editor img { 
-            max-width: 100%; height: auto; border-radius: 4px; margin: 10px 0; 
-            border: 2px solid transparent; cursor: pointer; transition: border-color 0.2s; 
-            display: inline-block;
-        }
-        .rich-editor img:hover { border-color: var(--accent); }
-        
-        button.add-btn { width: 100%; padding: 15px; background-color: var(--accent); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; text-transform: uppercase; transition: all 0.2s ease; }
-        button.add-btn:hover { background-color: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 4px 10px rgba(26, 188, 156, 0.3); }
-
-        /* GRID / LISTAS */
-        #commandsGrid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1200px;
-        }
-        @media (max-width: 900px) {
-            #commandsGrid { grid-template-columns: 1fr; }
-        }
-
-        /* 5 ITENS POR LINHA (minmax 300px) */
-        .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; width: 100%; max-width: 1600px; }
-        .items-list { display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 1000px; }
-
-        /* CARDS PROMPTS */
-        .card-prompt {
-            background: var(--card-bg); padding: 20px; padding-top: 15px; border-radius: var(--radius);
-            box-shadow: var(--shadow); display: flex; flex-direction: column; position: relative;
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); border-top: 4px solid transparent;
-            height: 420px;
-            box-sizing: border-box;
-        }
-        .card-prompt.is-pinned { border: 1px solid var(--pinned-border); border-top: 4px solid var(--pinned-border); background-color: var(--pinned-bg); order: -1; }
-        .card-prompt:hover { transform: translateY(-5px); box-shadow: var(--card-hover-shadow); }
-        
-        /* CORREÇÃO APLICADA AQUI: Títulos agora quebram linha */
-        .card-prompt h3 { 
-            margin-top: 0; 
-            color: var(--primary); 
-            font-size: 1.2em; 
-            border-bottom: 1px solid var(--input-border); 
-            padding-bottom: 10px; 
-            margin-bottom: 15px; 
-            padding-right: 70px; 
-            line-height: 1.3; /* Espaçamento melhor para multilinhas */
-            /* Removidos: white-space: nowrap; overflow: hidden; text-overflow: ellipsis; */
-        }
-        
-        .card-prompt .card-content { 
-            font-size: 15px; line-height: 1.5; color: var(--text); background: var(--bg-color); 
-            padding: 12px; border-radius: 4px; 
-            flex: 1;
-            overflow-y: auto; 
-            word-wrap: break-word; 
-            margin-bottom: 10px;
-        }
-        
-        .top-actions { position: absolute; top: 15px; right: 15px; display: flex; gap: 5px; z-index: 10; }
-        .btn-top-icon { background: none; border: none; cursor: pointer; font-size: 16px; padding: 5px; border-radius: 4px; transition: background 0.2s; opacity: 0.6; }
-        .btn-top-icon:hover { background: rgba(0,0,0,0.05); opacity: 1; }
-        .actions { display: flex; gap: 10px; margin-top: auto; }
-        .btn-action { flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s; }
-        .btn-copy { background-color: var(--accent); color: white; }
-        .btn-copy:hover { background-color: var(--accent-hover); }
-        .btn-copy.copied { background-color: var(--success); } /* Feedback Visual */
-        .btn-edit { background-color: var(--edit); color: white; }
-        .btn-edit:hover { opacity: 0.9; }
-
-        /* CARDS TUTORIAIS */
-        .card-tutorial { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; border-left: 6px solid var(--accent); transition: 0.3s; }
-        .card-tutorial.is-pinned { border-left-width: 10px; background-color: var(--pinned-bg); order: -1; }
-        .card-header { padding: 15px 25px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
-        .card-header:hover { background-color: rgba(0,0,0,0.02); }
-        .card-title-area { display: flex; align-items: center; gap: 15px; flex: 1; }
-        .card-title-area h3 { margin: 0; font-size: 1.25em; color: var(--primary); }
-        .card-tags { display: flex; gap: 5px; margin-right: 15px; }
-        .card-tag-small { font-size: 10px; padding: 3px 8px; border-radius: 10px; color: #fff; font-weight: bold; text-transform: uppercase; }
-        .card-options .btn-opt { background: transparent; border: 1px solid var(--input-border); padding: 5px 8px; border-radius: 4px; cursor: pointer; color: var(--icon-color); }
-        .card-options .btn-opt.active { color: var(--pin); border-color: var(--pin); }
-        .card-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; }
-        .card-tutorial.open .card-body { max-height: 5000px; border-top: 1px solid var(--input-border); }
-        .card-tutorial .card-content { padding: 30px; line-height: 1.7; font-size: 15px; color: var(--text); }
-        .card-footer { padding: 0 30px 25px; display: flex; justify-content: flex-end; }
-
-        /* TAGS MANAGER */
-        .tags-manager-section { margin-bottom: 15px; padding: 15px; background: var(--toolbar-bg); border-radius: 6px; border: 1px solid var(--input-border); }
-        .tags-selection-area { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
-        .tag-chip { display: inline-flex; align-items: center; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; color: #fff; cursor: pointer; border: 2px solid transparent; opacity: 0.6; transition: 0.2s; text-transform: uppercase; }
-        .tag-chip.selected { opacity: 1; border-color: var(--text); transform: scale(1.05); }
-        .color-input-modern { -webkit-appearance: none; border: none; width: 35px; height: 35px; cursor: pointer; background: none; padding: 0; }
-        .color-input-modern::-webkit-color-swatch { border: 2px solid var(--input-border); border-radius: 6px; }
-
-        /* MODAL DE TAGS */
-        .tag-modal {
-            display: none;
-            position: fixed;
-            z-index: 3500;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--primary);
+            background-color: var(--card-bg);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
             align-items: center;
-            backdrop-filter: blur(3px);
+            gap: 0.5rem;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-sm);
         }
-        .tag-modal.active { display: flex; }
-        .tag-modal-content {
+        .btn-outline:hover {
+            border-color: var(--primary);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .add-btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.3);
+        }
+        .add-btn:hover { background-color: var(--accent-hover); transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.4); }
+        .add-btn:active { transform: translateY(0); }
+
+        /* ======================================= */
+        /*              INPUTS & FORMS             */
+        /* ======================================= */
+        .input-container {
             background: var(--card-bg);
+            padding: 2rem;
             border-radius: var(--radius);
-            padding: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
-            width: 90%;
-            max-width: 400px;
+            box-shadow: var(--shadow-md);
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 2.5rem;
+            border: 1px solid var(--border-color);
             border-left: 5px solid var(--accent);
-            animation: fadeIn 0.3s;
         }
-        .tag-modal-content h2 { margin-top: 0; color: var(--primary); font-size: 1.3em; margin-bottom: 20px; }
-        .tag-modal-content input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid var(--input-border); border-radius: 6px; box-sizing: border-box; font-family: inherit; font-size: 15px; outline: none; background-color: var(--input-bg); color: var(--text); transition: 0.3s; }
-        .tag-modal-content input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.2); }
-        .tag-modal-color-row { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; }
-        .tag-modal-color-input { -webkit-appearance: none; border: none; width: 50px; height: 50px; cursor: pointer; background: none; padding: 0; border-radius: 6px; }
-        .tag-modal-color-input::-webkit-color-swatch { border: 2px solid var(--input-border); border-radius: 4px; }
-        .tag-modal-buttons { display: flex; gap: 10px; justify-content: flex-end; }
-        .tag-modal-btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s; font-size: 14px; }
-        .tag-modal-btn-primary { background-color: var(--accent); color: white; }
-        .tag-modal-btn-primary:hover { opacity: 0.9; }
-        .tag-modal-btn-secondary { background: transparent; border: 1px solid var(--input-border); color: var(--text); }
-        .tag-modal-btn-secondary:hover { background: var(--toolbar-bg); }
 
-        /* UTILS */
-        .lightbox-modal { display: none; position: fixed; z-index: 3000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; backdrop-filter: blur(5px); }
-        .db-status { position: fixed; bottom: 10px; left: 10px; font-size: 11px; color: var(--icon-color); opacity: 0.7; z-index: 100; font-weight: 500; }
-        #toast { visibility: hidden; min-width: 250px; background-color: var(--primary); color: var(--card-bg); text-align: center; border-radius: 4px; padding: 14px; position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 4000; box-shadow: 0 4px 15px rgba(0,0,0,0.2); font-weight: 600; }
-        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
-        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 40px; opacity: 1;} }
-        @keyframes fadeout { from {bottom: 40px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+        input[type="text"], input[type="search"], input[type="date"], input[type="number"], select, textarea {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background-color: var(--input-bg);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        }
 
-        /* COMANDOS (TERMINAL THEME) */
-        .card-command {
-            background: linear-gradient(180deg, #071017 0%, #0b1418 100%);
-            color: #b8f2c2;
-            padding: 18px;
-            border-radius: 10px;
-            box-shadow: 0 8px 30px rgba(2,8,12,0.6);
-            position: relative;
+        /* Editor Rico */
+        .editor-container {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            background-color: var(--input-bg);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            height: 320px;
-            border: 1px solid #1e282e;
         }
+        .toolbar {
+            background-color: var(--toolbar-bg);
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+        .toolbar button {
+            background: transparent;
+            border: 1px solid transparent;
+            cursor: pointer;
+            padding: 0.4rem 0.6rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-radius: 4px;
+            transition: all 0.1s;
+        }
+        .toolbar button:hover { background: rgba(0,0,0,0.05); color: var(--primary); border-color: rgba(0,0,0,0.1); }
+
+        .rich-editor {
+            width: 100%;
+            min-height: 200px;
+            padding: 1.5rem;
+            outline: none;
+            font-size: 1rem;
+            line-height: 1.7;
+            background-color: var(--input-bg);
+            color: var(--text);
+            overflow-y: auto;
+            max-height: 600px;
+        }
+        .rich-editor img {
+            max-width: 100%;
+            border-radius: 6px;
+            margin: 1rem 0;
+            box-shadow: var(--shadow-sm);
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .rich-editor img:hover { box-shadow: var(--shadow-lg); }
+
+        /* ======================================= */
+        /*              CARDS & GRIDS              */
+        /* ======================================= */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            width: 100%;
+        }
+
+        .items-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        /* Card Prompt */
+        .card-prompt {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid var(--border-color);
+            border-top: 4px solid transparent;
+            height: 400px;
+        }
+        .card-prompt:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: transparent; }
+        .card-prompt.is-pinned {
+            background-color: var(--pinned-bg);
+            border-color: var(--pinned-border);
+            border-top-color: var(--pinned-border);
+            order: -1;
+        }
+        
+        .card-prompt h3 {
+            margin: 0 0 1rem 0;
+            color: var(--primary);
+            font-size: 1.15rem;
+            font-weight: 600;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-right: 4rem; /* Espaço para botões topo */
+            line-height: 1.4;
+        }
+        
+        .card-prompt .card-content {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+            padding-right: 0.5rem;
+            white-space: pre-wrap;
+        }
+        /* Scrollbar fina para o conteúdo do card */
+        .card-prompt .card-content::-webkit-scrollbar { width: 4px; }
+        .card-prompt .card-content::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 2px; }
+
+        .top-actions {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.25rem;
+        }
+        .btn-top-icon {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0.4rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            color: var(--icon-color);
+            opacity: 0.6;
+            transition: 0.2s;
+        }
+        .btn-top-icon:hover { opacity: 1; background: rgba(0,0,0,0.05); color: var(--primary); }
+
+        .card-actions { display: flex; gap: 0.75rem; margin-top: auto; }
+        .btn-action {
+            flex: 1;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .btn-copy { background-color: rgba(16, 185, 129, 0.1); color: var(--accent-hover); }
+        .btn-copy:hover { background-color: var(--accent); color: white; }
+        .btn-copy.copied { background-color: var(--success); color: white; }
+        
+        .btn-edit { background-color: rgba(75, 85, 99, 0.1); color: var(--edit); }
+        .btn-edit:hover { background-color: var(--edit); color: white; }
+
+        /* Card Tutorial */
+        .card-tutorial {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            border-left: 5px solid var(--accent);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .card-tutorial:hover { box-shadow: var(--shadow-md); }
+        .card-tutorial.is-pinned { background-color: var(--pinned-bg); border-color: var(--pinned-border); }
+
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .card-header:hover { background-color: rgba(0,0,0,0.02); }
+        
+        .card-title-area h3 { margin: 0; font-size: 1.15rem; color: var(--primary); font-weight: 600; }
+        
+        .card-tags { display: flex; gap: 6px; margin-right: 1rem; flex-wrap: wrap; }
+        .card-tag-small {
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 99px;
+            color: #fff;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .card-body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0, 1, 0, 1); opacity: 0; }
+        .card-tutorial.open .card-body { max-height: 5000px; border-top: 1px solid var(--border-color); opacity: 1; transition: max-height 0.6s ease-in-out, opacity 0.3s ease; }
+        
+        .card-content-inner { padding: 2rem; line-height: 1.8; color: var(--text); font-size: 1rem; }
+        .card-footer { padding: 1rem 2rem 1.5rem; display: flex; justify-content: flex-end; border-top: 1px solid rgba(0,0,0,0.05); }
+
+        /* Card Command (Terminal Style) */
+        .card-command {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1.25rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            height: 340px;
+            border: 1px solid #334155;
+            position: relative;
+        }
+        .card-command h3 { color: #38bdf8; margin: 0 0 1rem 0; font-family: 'Inter', sans-serif; font-size: 1.1rem; border-bottom: 1px solid #1e293b; padding-bottom: 0.75rem; }
+        
         .terminal-area {
-            background: #081018;
-            color: #33ff77;
-            font-family: 'Fira Code', 'Consolas', monospace; /* Fonte monoespaçada melhorada */
-            padding: 18px;
-            border-radius: 8px;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+            background: #020617;
+            color: #4ade80;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            padding: 1rem;
+            border-radius: 6px;
             flex: 1;
             overflow: auto;
-            font-size: 13px;
-            line-height: 1.6;
-            border: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            border: 1px solid #1e293b;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
         }
-        /* Scrollbar Terminal Específico */
-        .terminal-area::-webkit-scrollbar { width: 6px; }
-        .terminal-area::-webkit-scrollbar-track { background: #081018; }
-        .terminal-area::-webkit-scrollbar-thumb { background: #1e3a29; border-radius: 3px; }
-
-        .terminal-line { white-space: pre-wrap; word-break: break-all; margin-bottom: 8px; }
-        .terminal-prompt { color: #9be7a8; font-weight: 700; margin-right: 8px; user-select: none; }
-        .card-command h3 { margin: 0 0 10px 0; color: #8aeaac; font-family: sans-serif; }
-        .command-actions { margin-top: 12px; display: flex; gap: 8px; }
-        .btn-terminal { padding: 8px 12px; border-radius: 6px; border: none; cursor: pointer; font-weight: 700; background: rgba(255,255,255,0.05); color: #eafaf0; transition: background 0.2s; }
-        .btn-terminal:hover { background: rgba(255,255,255,0.15); }
-        .btn-terminal.copy { background: rgba(51,255,119,0.15); color: #8affb0; }
-        .btn-terminal.copy:hover { background: rgba(51,255,119,0.25); }
-        .btn-terminal.edit { background: rgba(155,231,168,0.1); }
-
-        @media (max-width: 680px) {
-            .card-prompt, .card-command { height: auto; min-height: 300px; }
-            .items-grid { grid-template-columns: 1fr; }
+        .terminal-line { margin-bottom: 0.5rem; white-space: pre-wrap; word-break: break-all; }
+        .terminal-prompt { color: #f472b6; margin-right: 8px; user-select: none; }
+        
+        .command-actions { margin-top: 1rem; display: flex; gap: 0.5rem; }
+        .btn-terminal {
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            border: 1px solid #334155;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.85rem;
+            background: #1e293b;
+            color: #e2e8f0;
+            transition: all 0.2s;
         }
+        .btn-terminal:hover { background: #334155; border-color: #475569; }
+        .btn-terminal.copy { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border-color: rgba(16, 185, 129, 0.3); }
+        .btn-terminal.copy:hover { background: rgba(16, 185, 129, 0.3); }
+
+        /* ======================================= */
+        /*              MODAIS E COMPONENTES       */
+        /* ======================================= */
+        /* Tag Manager */
+        .tags-manager-section {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--toolbar-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .tag-chip {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.2s;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .tag-chip.selected { opacity: 1; transform: scale(1.05); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 3500;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.2s;
+        }
+        .modal-overlay.active { display: flex; }
+        
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+            width: 90%;
+            max-width: 400px;
+            border-top: 5px solid var(--accent);
+            animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* NOC Module Styles (Atualizados) */
+        .noc-module-wrapper { display: flex; gap: 1.5rem; width: 100%; align-items: flex-start; }
+        .noc-sidebar, .noc-main-content {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        .noc-sidebar { width: 320px; flex-shrink: 0; }
+        .noc-main-content { flex: 1; }
+        
+        .noc-routine-item {
+            background: var(--toolbar-bg);
+            border: 1px solid var(--border-color);
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .status-0 { border-left: 4px solid #10b981; }
+        .status-1 { border-left: 4px solid #f59e0b; }
+        .status-err { border-left: 4px solid #ef4444; }
+        
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .noc-module-wrapper { flex-direction: column; }
+            .noc-sidebar { width: 100%; }
+            .main-nav { padding: 0.5rem; }
+            .nav-item { padding: 0.5rem 1rem; font-size: 0.85rem; }
+            #commandsGrid { grid-template-columns: 1fr; }
+        }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 300px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 1rem;
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4000;
+            font-weight: 500;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+        #toast.show { visibility: visible; opacity: 1; bottom: 3rem; }
     </style>
 </head>
 <body>
 
+    <!-- Navegação Principal -->
     <nav class="main-nav">
         <div class="nav-container">
-            <div class="nav-item active" onclick="AppManager.switchTab('prompts', event)" role="tab" aria-selected="true" aria-controls="tab-prompts">🚀 Prompts</div>
-            <div class="nav-item" onclick="AppManager.switchTab('tutorials', event)" role="tab" aria-selected="false" aria-controls="tab-tutorials">📚 KBs & Procedimentos</div>
-            <div class="nav-item" onclick="AppManager.switchTab('commands', event)" role="tab" aria-selected="false" aria-controls="tab-commands">🔧 Comandos</div>
+            <button class="nav-item active" onclick="AppManager.switchTab('prompts', event)" role="tab" aria-selected="true">
+                <span class="nav-icon">🚀</span> Prompts
+            </button>
+            <button class="nav-item" onclick="AppManager.switchTab('tutorials', event)" role="tab" aria-selected="false">
+                <span class="nav-icon">📚</span> KBs & Procedimentos
+            </button>
+            <button class="nav-item" onclick="AppManager.switchTab('commands', event)" role="tab" aria-selected="false">
+                <span class="nav-icon">🔧</span> Comandos
+            </button>
+            <button class="nav-item" onclick="AppManager.switchTab('reports', event)" role="tab" aria-selected="false">
+                <span class="nav-icon">📋</span> Relatórios
+            </button>
         </div>
     </nav>
 
-    <button class="bg-image-toggle" onclick="AppManager.triggerBgUpload()" title="Alterar plano de fundo (Max 1.5MB p/ Salvar)" aria-label="Alterar plano de fundo">
+    <!-- Botões Flutuantes -->
+    <button class="floating-btn bg-image-toggle" onclick="AppManager.triggerBgUpload()" title="Alterar plano de fundo" aria-label="Alterar plano de fundo">
         <span>🖼️</span>
     </button>
     <input type="file" id="bgBodyInput" accept="image/*" style="display: none;" onchange="AppManager.handleBgUpload(this)">
 
-    <button class="dark-mode-toggle" onclick="AppManager.toggleDarkMode()" title="Alternar tema" aria-label="Alternar modo escuro">
+    <button class="floating-btn dark-mode-toggle" onclick="AppManager.toggleDarkMode()" title="Alternar tema" aria-label="Alternar modo escuro">
         <span id="modeIcon">🌙</span>
     </button>
 
-    <div id="lightbox" class="lightbox-modal" onclick="this.style.display='none'" role="dialog" aria-label="Visualizador de imagem">
-        <img id="lightboxImg" style="max-width: 90%; max-height: 90%; box-shadow: 0 0 50px rgba(0,0,0,0.8); border-radius: 5px;" alt="Imagem ampliada">
+    <!-- Lightbox (Imagem Fullscreen) -->
+    <div id="lightbox" class="modal-overlay" onclick="this.classList.remove('active')" role="dialog" aria-hidden="true">
+        <img id="lightboxImg" style="max-width: 95%; max-height: 95%; border-radius: 8px; box-shadow: 0 0 50px rgba(0,0,0,0.8);" alt="Imagem ampliada">
     </div>
     
-    <div id="tagModal" class="tag-modal" role="dialog" aria-labelledby="tagModalTitle" aria-modal="true">
-        <div class="tag-modal-content">
-            <h2 id="tagModalTitle">Criar Nova Tag</h2>
-            <input type="text" id="tagModalName" placeholder="Nome da tag..." aria-label="Nome da tag">
-            <div class="tag-modal-color-row">
-                <label for="tagModalColor">Cor:</label>
-                <input type="color" id="tagModalColor" class="tag-modal-color-input" value="#1abc9c" aria-label="Cor da tag">
+    <!-- Modal Tags -->
+    <div id="tagModal" class="modal-overlay" role="dialog" aria-modal="true">
+        <div class="modal-content">
+            <h2>Criar Nova Tag</h2>
+            <input type="text" id="tagModalName" placeholder="Nome da tag (ex: Banco de Dados)...">
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 20px;">
+                <label>Cor:</label>
+                <input type="color" id="tagModalColor" value="#10b981" style="width: 50px; height: 40px; padding: 2px;">
             </div>
-            <div class="tag-modal-buttons">
-                <button class="tag-modal-btn tag-modal-btn-secondary" onclick="TutorialsManager.closeTagModal()" aria-label="Cancelar">Cancelar</button>
-                <button class="tag-modal-btn tag-modal-btn-primary" onclick="TutorialsManager.createTagFromModal()" aria-label="Criar tag">Criar</button>
+            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="btn-outline" onclick="TutorialsManager.closeTagModal()">Cancelar</button>
+                <button class="add-btn" style="width: auto;" onclick="TutorialsManager.createTagFromModal()">Criar</button>
             </div>
         </div>
     </div>
     
-    <div class="db-status" id="dbStatus">Inicializando...</div>
+    <div id="dbStatus" style="position: fixed; bottom: 10px; left: 10px; font-size: 0.75rem; color: var(--text-secondary); opacity: 0.5;">Inicializando...</div>
 
-    <div id="tab-prompts" class="tab-content active" role="tabpanel" aria-labelledby="tab-prompts-label">
-        <h1 id="tab-prompts-label">Prompts</h1>
+    <!-- ============================================ -->
+    <!--                 TAB: PROMPTS                 -->
+    <!-- ============================================ -->
+    <div id="tab-prompts" class="tab-content active">
+        <h1>Gerenciador de Prompts</h1>
         
         <div class="backup-area">
-            <button class="btn-outline" onclick="PromptsManager.export()" aria-label="Backup">💾 Backup</button>
-            <button class="btn-outline" onclick="document.getElementById('promptImport').click()" aria-label="Restaurar">📂 Restaurar</button>
-            <input type="file" id="promptImport" accept=".json" style="display: none;" onchange="PromptsManager.import(this)" aria-hidden="true">
+            <button class="btn-outline" onclick="PromptsManager.export()">💾 Backup</button>
+            <button class="btn-outline" onclick="document.getElementById('promptImport').click()">📂 Restaurar</button>
+            <input type="file" id="promptImport" accept=".json" style="display: none;" onchange="PromptsManager.import(this)">
         </div>
 
         <div class="input-container">
-            <input type="search" id="promptSearch" placeholder="🔍 Pesquisar prompts..." onkeyup="PromptsManager.render()" aria-label="Pesquisar">
-            <input type="text" id="promptTitleInput" placeholder="Título do Prompt..." aria-label="Título">
+            <input type="search" id="promptSearch" placeholder="🔍 Pesquisar prompts..." onkeyup="PromptsManager.render()">
+            <input type="text" id="promptTitleInput" placeholder="Título do Prompt...">
             
             <div class="editor-container">
-                <div class="toolbar" role="toolbar">
-                    <button onclick="AppManager.formatText('bold')"><b>B</b></button>
-                    <button onclick="AppManager.formatText('italic')"><i>I</i></button>
-                    <button onclick="AppManager.formatText('underline')"><u>U</u></button>
-                    <button onclick="AppManager.formatText('justifyLeft')" title="Alinhar Esquerda">⬅️</button>
-                    <button onclick="AppManager.formatText('justifyCenter')" title="Alinhar Centro">↔️</button>
-                    <button onclick="AppManager.formatText('justifyRight')" title="Alinhar Direita">➡️</button>
-                    <button onclick="AppManager.formatText('insertUnorderedList')">• Lista</button>
-                    <button onclick="AppManager.formatText('insertOrderedList')">1. Lista</button>
+                <div class="toolbar">
+                    <button onclick="AppManager.formatText('bold')" title="Negrito"><b>B</b></button>
+                    <button onclick="AppManager.formatText('italic')" title="Itálico"><i>I</i></button>
+                    <button onclick="AppManager.formatText('underline')" title="Sublinhado"><u>U</u></button>
+                    <div style="width: 1px; background: var(--border-color); margin: 0 5px;"></div>
+                    <button onclick="AppManager.formatText('insertUnorderedList')" title="Lista">• Lista</button>
+                    <button onclick="AppManager.formatText('insertOrderedList')" title="Lista Numerada">1. Lista</button>
                 </div>
-                <div id="promptTextInput" class="rich-editor" contenteditable="true" placeholder="Escreva seu prompt aqui..." role="textbox"></div>
+                <div id="promptTextInput" class="rich-editor" contenteditable="true" placeholder="Escreva seu prompt aqui..."></div>
             </div>
             <button class="add-btn" id="promptSaveButton" onclick="PromptsManager.add()">Salvar Prompt</button>
         </div>
 
-        <div class="items-grid" id="promptGrid" role="region"></div>
+        <div class="items-grid" id="promptGrid"></div>
     </div>
 
-    <div id="tab-tutorials" class="tab-content" role="tabpanel" aria-labelledby="tab-tutorials-label">
-        <h1 id="tab-tutorials-label">KBs & Procedimentos</h1>
+    <!-- ============================================ -->
+    <!--             TAB: TUTORIAIS (KBs)             -->
+    <!-- ============================================ -->
+    <div id="tab-tutorials" class="tab-content">
+        <h1>KBs & Procedimentos</h1>
 
         <div class="backup-area">
-            <button class="btn-outline" onclick="TutorialsManager.export()" aria-label="Backup">💾 Backup</button>
-            <button class="btn-outline" onclick="document.getElementById('tutorialImport').click()" aria-label="Restaurar">📂 Restaurar</button>
-            <input type="file" id="tutorialImport" accept=".json" style="display: none;" onchange="TutorialsManager.import(this)" aria-hidden="true">
+            <button class="btn-outline" onclick="TutorialsManager.export()">💾 Backup</button>
+            <button class="btn-outline" onclick="document.getElementById('tutorialImport').click()">📂 Restaurar</button>
+            <input type="file" id="tutorialImport" accept=".json" style="display: none;" onchange="TutorialsManager.import(this)">
         </div>
 
         <div class="input-container" id="tutorialInputContainer">
-            <input type="search" id="tutorialSearch" placeholder="🔍 Pesquisar tutoriais..." onkeyup="TutorialsManager.render()" aria-label="Pesquisar">
-            <input type="text" id="tutorialTitleInput" placeholder="Título do Procedimento..." aria-label="Título">
+            <input type="search" id="tutorialSearch" placeholder="🔍 Pesquisar tutoriais..." onkeyup="TutorialsManager.render()">
+            <input type="text" id="tutorialTitleInput" placeholder="Título do Procedimento...">
             
             <div class="tags-manager-section">
-                <div class="tags-selection-area" id="tagsSelectionArea" role="group"></div>
-                <button class="btn-outline" style="margin-top: 10px;" onclick="TutorialsManager.openTagModal()">+ Adicionar Tag</button>
+                <div id="tagsSelectionArea" style="display: flex; flex-wrap: wrap; margin-bottom: 10px;"></div>
+                <button class="btn-outline" style="font-size: 0.8rem;" onclick="TutorialsManager.openTagModal()">+ Nova Tag</button>
             </div>
 
             <div class="editor-container">
-                <div class="toolbar" role="toolbar">
+                <div class="toolbar">
                     <button onclick="AppManager.formatText('bold')"><b>B</b></button>
                     <button onclick="AppManager.formatText('italic')"><i>I</i></button>
-                    <button onclick="AppManager.formatText('underline')"><u>U</u></button>
-                    <button onclick="AppManager.formatText('justifyLeft')" title="Alinhar Esquerda">⬅️</button>
-                    <button onclick="AppManager.formatText('justifyCenter')" title="Alinhar Centro">↔️</button>
-                    <button onclick="AppManager.formatText('justifyRight')" title="Alinhar Direita">➡️</button>
                     <button onclick="AppManager.formatText('insertUnorderedList')">• Lista</button>
-                    <button onclick="AppManager.formatText('insertOrderedList')">1. Lista</button>
-                    <button onclick="TutorialsManager.triggerImageUpload()" title="Upload Imagem">🖼️ Upload</button>
-                    <button onclick="TutorialsManager.triggerUrlImage()" title="Link Imagem">🔗 Link</button>
+                    <button onclick="TutorialsManager.triggerImageUpload()">🖼️ Upload Imagem</button>
+                    <button onclick="TutorialsManager.triggerUrlImage()">🔗 Link Imagem</button>
                     <input type="file" id="imgUpload" accept="image/*" style="display: none;" onchange="TutorialsManager.handleImageUpload(this)">
                 </div>
-                <div id="tutorialTextInput" class="rich-editor" contenteditable="true" placeholder="Descreva o procedimento e cole prints..." role="textbox"></div>
+                <div id="tutorialTextInput" class="rich-editor" contenteditable="true" placeholder="Descreva o procedimento..."></div>
             </div>
             <button class="add-btn" id="tutorialSaveButton" onclick="TutorialsManager.add()">Salvar Procedimento</button>
         </div>
 
-        <div class="items-list" id="tutorialGrid" role="region"></div>
+        <div class="items-list" id="tutorialGrid"></div>
     </div>
 
-    <div id="tab-commands" class="tab-content" role="tabpanel" aria-labelledby="tab-commands-label">
-        <h1 id="tab-commands-label">Comandos</h1>
+    <!-- ============================================ -->
+    <!--               TAB: COMANDOS                  -->
+    <!-- ============================================ -->
+    <div id="tab-commands" class="tab-content">
+        <h1>Biblioteca de Comandos</h1>
 
         <div class="backup-area">
-            <button class="btn-outline" onclick="CommandsManager.export()" aria-label="Backup">💾 Backup</button>
-            <button class="btn-outline" onclick="document.getElementById('commandsImport').click()" aria-label="Restaurar">📂 Restaurar</button>
-            <input type="file" id="commandsImport" accept=".json" style="display: none;" onchange="CommandsManager.import(this)" aria-hidden="true">
+            <button class="btn-outline" onclick="CommandsManager.export()">💾 Backup</button>
+            <button class="btn-outline" onclick="document.getElementById('commandsImport').click()">📂 Restaurar</button>
+            <input type="file" id="commandsImport" accept=".json" style="display: none;" onchange="CommandsManager.import(this)">
         </div>
 
         <div class="input-container">
-            <input type="search" id="commandSearch" placeholder="🔍 Pesquisar comandos..." onkeyup="CommandsManager.render()" aria-label="Pesquisar">
-            <input type="text" id="commandTitleInput" placeholder="Título do Comando..." aria-label="Título">
+            <input type="search" id="commandSearch" placeholder="🔍 Pesquisar comandos..." onkeyup="CommandsManager.render()">
+            <input type="text" id="commandTitleInput" placeholder="Título do Comando...">
             
             <div class="editor-container">
-                <div class="toolbar" role="toolbar">
-                    <button onclick="AppManager.formatText('bold')"><b>B</b></button>
-                    <button onclick="AppManager.formatText('italic')"><i>I</i></button>
-                    <button onclick="AppManager.formatText('underline')"><u>U</u></button>
-                </div>
-                <div id="commandTextInput" class="rich-editor" contenteditable="true" placeholder="Cole/componha o comando aqui..." role="textbox"></div>
+                <div class="toolbar"><button onclick="AppManager.formatText('bold')"><b>B</b></button></div>
+                <div id="commandTextInput" class="rich-editor" contenteditable="true" placeholder="Cole o comando aqui..." style="font-family: 'Fira Code', monospace; font-size: 0.9rem;"></div>
             </div>
             <button class="add-btn" id="commandSaveButton" onclick="CommandsManager.add()">Salvar Comando</button>
         </div>
 
-        <div class="items-grid" id="commandsGrid" role="region"></div>
+        <div class="items-grid" id="commandsGrid"></div>
     </div>
 
-    <div id="toast" role="status" aria-live="polite">Sucesso!</div>
-
-    <script>
-        // ============================================
-        // CONSTANTES E CONFIGURAÇÕES GLOBAIS
-        // ============================================
+    <!-- ============================================ -->
+    <!--               TAB: RELATÓRIOS                -->
+    <!-- ============================================ -->
+    <div id="tab-reports" class="tab-content">
+        <h1>Relatórios de Backup</h1>
         
+        <div class="noc-module-wrapper">
+            <!-- Sidebar Config -->
+            <div class="noc-sidebar">
+                <h3 style="margin-top:0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">1. Configuração</h3>
+                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Cliente:</label>
+                <select id="nocClientSelect" onchange="ReportsManager.handleClientChange()"></select>
+                
+                <div style="display: flex; gap: 5px; margin-bottom: 1rem;">
+                    <input type="text" id="nocNewClientName" placeholder="Novo Cliente" style="margin-bottom: 0;">
+                    <button class="add-btn" onclick="ReportsManager.addClient()" style="width: auto; padding: 0 1rem;">+</button>
+                </div>
+
+                <div style="background: var(--toolbar-bg); padding: 10px; border-radius: 6px; margin-top: 20px;">
+                    <h4 style="margin: 0 0 10px 0;">Nova Rotina</h4>
+                    <input type="text" id="nocRoutineNum" placeholder="Nº (Ex: 1)">
+                    <input type="text" id="nocRoutineName" placeholder="Descrição">
+                    <button onclick="ReportsManager.addRoutine()" class="btn-outline" style="width: 100%; justify-content: center;">Adicionar</button>
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <label style="font-weight:bold; font-size: 0.85rem;">Ordenar por:</label>
+                    <div class="noc-view-options" style="display: flex; gap: 5px; margin-top: 5px;">
+                        <button id="btnSortManual" class="btn-outline active" style="font-size: 0.75rem; padding: 4px 8px;" onclick="ReportsManager.setSortMode('manual')">Manual</button>
+                        <button id="btnSortAlpha" class="btn-outline" style="font-size: 0.75rem; padding: 4px 8px;" onclick="ReportsManager.setSortMode('alpha')">A-Z</button>
+                    </div>
+                </div>
+
+                <div id="nocSavedRoutinesList" style="margin-top: 20px; max-height: 300px; overflow-y: auto;"></div>
+                
+                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed var(--border-color); display: flex; gap: 5px;">
+                     <button onclick="ReportsManager.exportData()" class="btn-outline" style="font-size: 0.75rem; flex: 1;">Exportar</button>
+                     <button onclick="document.getElementById('nocImportFile').click()" class="btn-outline" style="font-size: 0.75rem; flex: 1;">Importar</button>
+                     <input type="file" id="nocImportFile" style="display: none;" accept=".json" onchange="ReportsManager.importData(event)">
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="noc-main-content">
+                <h3 style="margin-top:0;">2. Preenchimento Diário</h3>
+                <div style="display: flex; gap: 20px; margin-bottom: 20px;">
+                    <div style="flex: 1;">
+                        <label>Data Inicial:</label>
+                        <input type="date" id="reportDateStart" onchange="ReportsManager.clearOutput()">
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Data Final:</label>
+                        <input type="date" id="reportDateEnd" onchange="ReportsManager.clearOutput()">
+                    </div>
+                </div>
+                
+                <div id="nocDailyEntryArea" style="min-height: 100px; background: var(--toolbar-bg); border-radius: 8px; padding: 15px;">
+                    <p style="text-align: center; color: var(--text-secondary);">Selecione um cliente para carregar as rotinas.</p>
+                </div>
+                
+                <button class="add-btn" style="margin-top: 20px;" onclick="ReportsManager.generateReport()">Gerar Relatório</button>
+                
+                <h3 style="margin-top: 30px;">3. Resultado Final</h3>
+                <textarea id="nocOutputArea" style="height: 150px; font-family: monospace;" readonly placeholder="O relatório aparecerá aqui..."></textarea>
+                <div class="card-actions">
+                    <button onclick="ReportsManager.copyText()" class="add-btn" style="background-color: var(--success);">Copiar Texto</button>
+                    <button onclick="ReportsManager.enableEdit()" class="btn-outline">Editar Manualmente</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" role="alert">Sucesso!</div>
+
+    <!-- SCRIPT ORIGINAL (Preservado para manter lógica funcional) -->
+    <script>
         const CONFIG = {
             STORAGE_KEY_PROMPTS: 'myPrompts',
             STORAGE_KEY_COMMANDS: 'myCommands',
@@ -553,13 +870,9 @@
             DB_NAME: 'KB_Database_Integrated',
             DB_STORE: 'tutorials',
             TAGS_KEY: 'KB_Tags_Integrated',
-            MAX_BG_SIZE_BYTES: 1.5 * 1024 * 1024, // Limite de segurança de 1.5MB p/ LocalStorage
+            MAX_BG_SIZE_BYTES: 1.5 * 1024 * 1024,
         };
 
-        // ============================================
-        // UTILIDADES DE SEGURANÇA E AUXILIARES
-        // ============================================
-        
         const SecurityUtils = {
             sanitizeText(text) {
                 const div = document.createElement('div');
@@ -570,815 +883,511 @@
                 try { new URL(url); return true; } catch { return false; }
             },
             isValidCSSValue(value) {
-                const validPattern = /^(\d+(\.\d+)?(px|%|em|rem|vh|vw))$/;
-                return validPattern.test(value);
+                return /^(\d+(\.\d+)?(px|%|em|rem|vh|vw))$/.test(value);
             }
         };
 
-        // ============================================
-        // GERENCIADOR DE APLICAÇÃO
-        // ============================================
-        
         const AppManager = {
             currentTab: 'prompts',
-
-            // CORREÇÃO: Argumento 'e' (event) adicionado para compatibilidade Firefox
             switchTab(tabId, e) {
                 document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-                document.querySelectorAll('[role="tab"]').forEach(item => {
+                document.querySelectorAll('.nav-item').forEach(item => {
                     item.classList.remove('active');
                     item.setAttribute('aria-selected', 'false');
                 });
-                
                 document.getElementById('tab-' + tabId).classList.add('active');
-                
-                // Uso seguro de e.currentTarget
                 if (e && e.currentTarget) {
                     e.currentTarget.classList.add('active');
                     e.currentTarget.setAttribute('aria-selected', 'true');
                 }
-                
                 this.currentTab = tabId;
                 if (tabId === 'prompts') PromptsManager.render();
                 if (tabId === 'tutorials') TutorialsManager.render();
                 if (tabId === 'commands') CommandsManager.render();
+                if (tabId === 'reports') ReportsManager.init();
             },
-
             toggleDarkMode() {
                 const isDark = document.body.classList.toggle('dark-mode');
                 localStorage.setItem(CONFIG.STORAGE_KEY_DARK_MODE, isDark ? 'enabled' : 'disabled');
                 document.getElementById('modeIcon').textContent = isDark ? '☀️' : '🌙';
             },
-
             showToast(msg) {
                 const t = document.getElementById("toast");
                 t.textContent = msg || "Sucesso!";
                 t.classList.add("show");
                 setTimeout(() => t.classList.remove("show"), 2500);
             },
-
             formatText(cmd) {
                 document.execCommand(cmd, false, null);
-                // Retornar foco ao editor
-                const activeEditor = document.activeElement;
-                if(activeEditor && activeEditor.classList.contains('rich-editor')) {
-                    activeEditor.focus();
-                }
+                const activeEditor = document.querySelector('.tab-content.active .rich-editor');
+                if(activeEditor) activeEditor.focus();
             },
-
-            triggerBgUpload() {
-                document.getElementById('bgBodyInput').click();
-            },
-
+            triggerBgUpload() { document.getElementById('bgBodyInput').click(); },
             handleBgUpload(input) {
                 if (input.files && input.files[0]) {
                     const file = input.files[0];
-                    
-                    // MELHORIA: Checagem de tamanho ANTES de ler o arquivo
                     if (file.size > CONFIG.MAX_BG_SIZE_BYTES) {
-                        AppManager.showToast('Imagem muito grande (> 1.5MB). Não será salva, mas aplicada temporariamente.');
-                        // Carrega apenas para visualização temporária
-                        const tempReader = new FileReader();
-                        tempReader.onload = e => { document.body.style.backgroundImage = `url('${e.target.result}')`; };
-                        tempReader.readAsDataURL(file);
+                        AppManager.showToast('Imagem muito grande (> 1.5MB).');
                         return;
                     }
-
                     const reader = new FileReader();
                     reader.onload = function(e) {
                         const imageData = e.target.result;
                         document.body.style.backgroundImage = `url('${imageData}')`;
-                        
-                        try {
-                            localStorage.setItem(CONFIG.STORAGE_KEY_BG, imageData);
-                            AppManager.showToast('Plano de fundo salvo!');
-                        } catch (err) {
-                            console.error('Storage full:', err);
-                            AppManager.showToast('Erro: Espaço cheio! Imagem não salva.');
-                        }
+                        try { localStorage.setItem(CONFIG.STORAGE_KEY_BG, imageData); AppManager.showToast('Plano de fundo salvo!'); }
+                        catch (err) { AppManager.showToast('Erro: Espaço cheio!'); }
                     };
                     reader.readAsDataURL(file);
                 }
             },
-
             loadBackground() {
-                try {
-                    const bg = localStorage.getItem(CONFIG.STORAGE_KEY_BG);
-                    if (bg) {
-                        document.body.style.backgroundImage = `url('${bg}')`;
-                    }
-                } catch (err) {
-                    console.error('Erro ao carregar background:', err);
-                }
+                try { const bg = localStorage.getItem(CONFIG.STORAGE_KEY_BG); if (bg) document.body.style.backgroundImage = `url('${bg}')`; } catch(e){}
             }
         };
 
-        // ============================================
-        // GERENCIADOR DE PROMPTS
-        // ============================================
-        
         const PromptsManager = {
             editingId: null,
-
-            getFromStorage() {
-                try {
-                    const data = localStorage.getItem(CONFIG.STORAGE_KEY_PROMPTS);
-                    return data ? JSON.parse(data) : [];
-                } catch (err) { return []; }
-            },
-
-            saveToStorage(prompts) {
-                try {
-                    localStorage.setItem(CONFIG.STORAGE_KEY_PROMPTS, JSON.stringify(prompts));
-                } catch (err) {
-                    AppManager.showToast('Erro crítico ao salvar! Espaço cheio?');
-                }
-            },
-
+            getFromStorage() { try { return JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY_PROMPTS)) || []; } catch { return []; } },
+            saveToStorage(prompts) { localStorage.setItem(CONFIG.STORAGE_KEY_PROMPTS, JSON.stringify(prompts)); },
             add() {
                 const title = document.getElementById('promptTitleInput').value.trim();
                 const text = document.getElementById('promptTextInput').innerHTML;
-
-                if (!title || !text.replace(/<[^>]*>/g, '').trim()) {
-                    alert("Preencha título e conteúdo.");
-                    return;
-                }
-
+                if (!title || !text) return AppManager.showToast("Preencha título e conteúdo.");
                 let prompts = this.getFromStorage();
-                if (this.editingId) {
-                    prompts = prompts.map(p => p.id === this.editingId ? { ...p, title, text } : p);
-                } else {
-                    prompts.push({ id: Date.now(), title, text, isPinned: false });
-                }
-
+                if (this.editingId) prompts = prompts.map(p => p.id === this.editingId ? { ...p, title, text } : p);
+                else prompts.push({ id: Date.now(), title, text, isPinned: false });
                 this.saveToStorage(prompts);
                 this.resetForm();
                 this.render();
                 AppManager.showToast("Prompt salvo!");
             },
-
             resetForm() {
                 document.getElementById('promptTitleInput').value = '';
                 document.getElementById('promptTextInput').innerHTML = '';
                 this.editingId = null;
-                const btn = document.getElementById('promptSaveButton');
-                btn.textContent = 'Salvar Novo Prompt';
-                btn.style.backgroundColor = 'var(--accent)';
+                document.getElementById('promptSaveButton').textContent = 'Salvar Prompt';
             },
-
             edit(id) {
-                const prompts = this.getFromStorage();
-                const p = prompts.find(x => x.id === id);
+                const p = this.getFromStorage().find(x => x.id === id);
                 if (!p) return;
                 this.editingId = id;
                 document.getElementById('promptTitleInput').value = p.title;
                 document.getElementById('promptTextInput').innerHTML = p.text;
-                const btn = document.getElementById('promptSaveButton');
-                btn.textContent = 'Atualizar Prompt';
-                btn.style.backgroundColor = 'var(--success)';
+                document.getElementById('promptSaveButton').textContent = 'Atualizar Prompt';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             },
-
             delete(id) {
-                if (!confirm("Deseja apagar este prompt?")) return;
-                let prompts = this.getFromStorage();
-                prompts = prompts.filter(p => p.id !== id);
+                if (!confirm("Apagar prompt?")) return;
+                let prompts = this.getFromStorage().filter(p => p.id !== id);
                 this.saveToStorage(prompts);
                 this.render();
             },
-
             togglePin(id) {
-                let prompts = this.getFromStorage();
-                prompts = prompts.map(p => p.id === id ? { ...p, isPinned: !p.isPinned } : p);
+                let prompts = this.getFromStorage().map(p => p.id === id ? { ...p, isPinned: !p.isPinned } : p);
                 this.saveToStorage(prompts);
                 this.render();
             },
-
             async copy(btn, id) {
-                const prompts = this.getFromStorage();
-                const p = prompts.find(x => x.id === id);
+                const p = this.getFromStorage().find(x => x.id === id);
                 if (!p) return;
                 
-                const tempDiv = document.createElement("div");
-                tempDiv.innerHTML = p.text;
-                const textToCopy = tempDiv.innerText || tempDiv.textContent;
-                
                 try {
+                    // Tenta usar a Clipboard API moderna com HTML e Texto para preservar formatação
                     const blobHtml = new Blob([p.text], { type: 'text/html' });
+                    const tempDiv = document.createElement("div");
+                    tempDiv.innerHTML = p.text;
+                    const textToCopy = tempDiv.innerText || tempDiv.textContent;
                     const blobText = new Blob([textToCopy], { type: 'text/plain' });
-                    await navigator.clipboard.write([new ClipboardItem({ 'text/html': blobHtml, 'text/plain': blobText })]);
-                } catch {
-                    await navigator.clipboard.writeText(textToCopy);
+                    
+                    await navigator.clipboard.write([
+                        new ClipboardItem({ 
+                            'text/html': blobHtml, 
+                            'text/plain': blobText 
+                        })
+                    ]);
+                } catch (err) {
+                    console.error("Clipboard API falhou, tentando fallback...", err);
+                    // Fallback robusto para formatação usando seleção de elemento
+                    const tempDiv = document.createElement("div");
+                    tempDiv.innerHTML = p.text;
+                    tempDiv.style.position = "fixed";
+                    tempDiv.style.left = "-9999px";
+                    tempDiv.style.top = "0";
+                    document.body.appendChild(tempDiv);
+                    
+                    const selection = window.getSelection();
+                    const range = document.createRange();
+                    range.selectNodeContents(tempDiv);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                    
+                    try {
+                        document.execCommand('copy');
+                    } catch (e) {
+                        console.error("Fallback falhou", e);
+                        // Último recurso: apenas texto
+                        const plainText = tempDiv.innerText || tempDiv.textContent;
+                        navigator.clipboard.writeText(plainText);
+                    }
+                    
+                    selection.removeAllRanges();
+                    document.body.removeChild(tempDiv);
                 }
-                
-                // Feedback visual no botão
+
                 const originalText = btn.textContent;
                 btn.textContent = "Copiado!";
                 btn.classList.add("copied");
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.classList.remove("copied");
-                }, 1500);
+                setTimeout(() => { btn.textContent = originalText; btn.classList.remove("copied"); }, 1500);
             },
-
             render() {
                 const grid = document.getElementById('promptGrid');
                 const search = document.getElementById('promptSearch').value.toLowerCase();
                 let prompts = this.getFromStorage();
-
-                if (search) {
-                    prompts = prompts.filter(p => 
-                        p.title.toLowerCase().includes(search) || 
-                        p.text.replace(/<[^>]*>/g, '').toLowerCase().includes(search)
-                    );
-                }
-
-                prompts.sort((a, b) => {
-                    if (a.isPinned !== b.isPinned) return b.isPinned - a.isPinned;
-                    return a.title.localeCompare(b.title, 'pt-BR', { sensitivity: 'base' });
-                });
-
+                if (search) prompts = prompts.filter(p => p.title.toLowerCase().includes(search) || p.text.toLowerCase().includes(search));
+                prompts.sort((a, b) => (b.isPinned - a.isPinned) || a.title.localeCompare(b.title));
                 grid.innerHTML = '';
-                if (prompts.length === 0) {
-                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; opacity: 0.5;">Nenhum prompt encontrado.</p>';
-                    return;
-                }
-
-                const fragment = document.createDocumentFragment();
+                if (prompts.length === 0) { grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; opacity: 0.5;">Nenhum prompt encontrado.</p>'; return; }
                 prompts.forEach(p => {
                     const card = document.createElement('div');
                     card.className = `card-prompt ${p.isPinned ? 'is-pinned' : ''}`;
                     card.innerHTML = `
                         <div class="top-actions">
-                            <button class="btn-top-icon" onclick="PromptsManager.togglePin(${p.id})" title="${p.isPinned ? 'Desafixar' : 'Fixar'}">${p.isPinned ? '📌' : '📍'}</button>
-                            <button class="btn-top-icon" onclick="PromptsManager.delete(${p.id})" title="Excluir">🗑️</button>
+                            <button class="btn-top-icon" onclick="PromptsManager.togglePin(${p.id})">${p.isPinned ? '📌' : '📍'}</button>
+                            <button class="btn-top-icon" onclick="PromptsManager.delete(${p.id})">🗑️</button>
                         </div>
                         <h3>${SecurityUtils.sanitizeText(p.title)}</h3>
                         <div class="card-content">${p.text}</div>
-                        <div class="actions">
-                            <button class="btn-action btn-copy" onclick="PromptsManager.copy(this, ${p.id})">Copiar</button>
+                        <div class="card-actions">
+                            <button class="btn-action btn-copy" onclick="PromptsManager.copy(this, ${p.id})">Copiar Texto</button>
                             <button class="btn-action btn-edit" onclick="PromptsManager.edit(${p.id})">Editar</button>
-                        </div>
-                    `;
-                    fragment.appendChild(card);
+                        </div>`;
+                    grid.appendChild(card);
                 });
-                grid.appendChild(fragment);
             },
-
             export() {
-                const data = this.getFromStorage();
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = `backup_prompts_${new Date().toISOString().split('T')[0]}.json`;
-                a.click();
-                URL.revokeObjectURL(a.href);
+                const blob = new Blob([JSON.stringify(this.getFromStorage(), null, 2)], { type: "application/json" });
+                const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `backup_prompts.json`; a.click();
             },
-
             import(input) {
                 const reader = new FileReader();
-                reader.onload = e => {
-                    try {
-                        const imported = JSON.parse(e.target.result);
-                        if (Array.isArray(imported)) {
-                            this.saveToStorage(imported);
-                            this.render();
-                            AppManager.showToast("Importado com sucesso!");
-                        }
-                    } catch { alert("Arquivo inválido."); }
-                };
+                reader.onload = e => { try { const imp = JSON.parse(e.target.result); if(Array.isArray(imp)){ this.saveToStorage(imp); this.render(); AppManager.showToast("Importado!"); } } catch { alert("Arquivo inválido."); } };
                 if(input.files[0]) reader.readAsText(input.files[0]);
             }
         };
 
-        // ============================================
-        // GERENCIADOR DE COMANDOS
-        // ============================================
         const CommandsManager = {
             editingId: null,
-
-            getFromStorage() {
-                try {
-                    const data = localStorage.getItem(CONFIG.STORAGE_KEY_COMMANDS);
-                    return data ? JSON.parse(data) : [];
-                } catch { return []; }
-            },
-
-            saveToStorage(cmds) {
-                try { localStorage.setItem(CONFIG.STORAGE_KEY_COMMANDS, JSON.stringify(cmds)); } catch(e) { AppManager.showToast('Erro ao salvar comando.'); }
-            },
-
+            getFromStorage() { try { return JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY_COMMANDS)) || []; } catch { return []; } },
+            saveToStorage(cmds) { localStorage.setItem(CONFIG.STORAGE_KEY_COMMANDS, JSON.stringify(cmds)); },
             add() {
                 const title = document.getElementById('commandTitleInput').value.trim();
                 const text = document.getElementById('commandTextInput').innerHTML;
-
-                if (!title || !text.replace(/<[^>]*>/g, '').trim()) {
-                    alert("Preencha título e comando.");
-                    return;
-                }
-
+                if (!title || !text) return AppManager.showToast("Preencha campos.");
                 let cmds = this.getFromStorage();
-                if (this.editingId) {
-                    cmds = cmds.map(p => p.id === this.editingId ? { ...p, title, text } : p);
-                } else {
-                    cmds.push({ id: Date.now(), title, text, isPinned: false });
-                }
-
+                if (this.editingId) cmds = cmds.map(p => p.id === this.editingId ? { ...p, title, text } : p);
+                else cmds.push({ id: Date.now(), title, text, isPinned: false });
                 this.saveToStorage(cmds);
                 this.resetForm();
                 this.render();
                 AppManager.showToast("Comando salvo!");
             },
-
             resetForm() {
                 document.getElementById('commandTitleInput').value = '';
                 document.getElementById('commandTextInput').innerHTML = '';
                 this.editingId = null;
-                const btn = document.getElementById('commandSaveButton');
-                btn.textContent = 'Salvar Comando';
-                btn.style.backgroundColor = 'var(--accent)';
+                document.getElementById('commandSaveButton').textContent = 'Salvar Comando';
             },
-
             edit(id) {
-                const cmds = this.getFromStorage();
-                const p = cmds.find(x => x.id === id);
+                const p = this.getFromStorage().find(x => x.id === id);
                 if (!p) return;
                 this.editingId = id;
                 document.getElementById('commandTitleInput').value = p.title;
                 document.getElementById('commandTextInput').innerHTML = p.text;
-                const btn = document.getElementById('commandSaveButton');
-                btn.textContent = 'Atualizar Comando';
-                btn.style.backgroundColor = 'var(--success)';
+                document.getElementById('commandSaveButton').textContent = 'Atualizar Comando';
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             },
-
             delete(id) {
-                if (!confirm("Deseja apagar este comando?")) return;
-                let cmds = this.getFromStorage();
-                cmds = cmds.filter(p => p.id !== id);
+                if (!confirm("Apagar comando?")) return;
+                let cmds = this.getFromStorage().filter(p => p.id !== id);
                 this.saveToStorage(cmds);
                 this.render();
             },
-
             togglePin(id) {
-                let cmds = this.getFromStorage();
-                cmds = cmds.map(p => p.id === id ? { ...p, isPinned: !p.isPinned } : p);
+                let cmds = this.getFromStorage().map(p => p.id === id ? { ...p, isPinned: !p.isPinned } : p);
                 this.saveToStorage(cmds);
                 this.render();
             },
-
             async copy(btn, id) {
-                const cmds = this.getFromStorage();
-                const p = cmds.find(x => x.id === id);
+                const p = this.getFromStorage().find(x => x.id === id);
                 if (!p) return;
                 
-                const tempDiv = document.createElement("div");
-                tempDiv.innerHTML = p.text;
-                const textToCopy = tempDiv.innerText || tempDiv.textContent;
-                
                 try {
-                    await navigator.clipboard.writeText(textToCopy);
-                } catch(e) { console.error(e); }
+                    // Tenta usar a Clipboard API moderna com HTML e Texto
+                    const blobHtml = new Blob([p.text], { type: 'text/html' });
+                    const tempDiv = document.createElement("div");
+                    tempDiv.innerHTML = p.text;
+                    const textToCopy = tempDiv.innerText || tempDiv.textContent;
+                    const blobText = new Blob([textToCopy], { type: 'text/plain' });
+                    
+                    await navigator.clipboard.write([
+                        new ClipboardItem({ 
+                            'text/html': blobHtml, 
+                            'text/plain': blobText 
+                        })
+                    ]);
+                } catch (err) {
+                    console.error("Clipboard API falhou, tentando fallback...", err);
+                    // Fallback robusto para formatação usando seleção de elemento
+                    const tempDiv = document.createElement("div");
+                    tempDiv.innerHTML = p.text;
+                    tempDiv.style.position = "fixed";
+                    tempDiv.style.left = "-9999px";
+                    tempDiv.style.top = "0";
+                    document.body.appendChild(tempDiv);
+                    
+                    const selection = window.getSelection();
+                    const range = document.createRange();
+                    range.selectNodeContents(tempDiv);
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                    
+                    try {
+                        document.execCommand('copy');
+                    } catch (e) {
+                        console.error("Fallback falhou", e);
+                        // Último recurso: apenas texto
+                        const plainText = tempDiv.innerText || tempDiv.textContent;
+                        navigator.clipboard.writeText(plainText);
+                    }
+                    
+                    selection.removeAllRanges();
+                    document.body.removeChild(tempDiv);
+                }
 
-                // Feedback visual
-                const originalText = btn.innerText;
-                btn.innerText = "OK";
-                btn.style.color = "#fff";
-                setTimeout(() => {
-                    btn.innerText = originalText;
-                    btn.style.color = "";
-                }, 1000);
+                const originalText = btn.textContent; 
+                btn.textContent = "Copiado!";
+                btn.classList.add("copied");
+                setTimeout(() => { btn.textContent = originalText; btn.classList.remove("copied"); }, 1500);
             },
-
             render() {
                 const grid = document.getElementById('commandsGrid');
                 const search = document.getElementById('commandSearch').value.toLowerCase();
                 let cmds = this.getFromStorage();
-
-                if (search) {
-                    cmds = cmds.filter(p => 
-                        p.title.toLowerCase().includes(search) || 
-                        p.text.replace(/<[^>]*>/g, '').toLowerCase().includes(search)
-                    );
-                }
-
-                cmds.sort((a, b) => {
-                    if (a.isPinned !== b.isPinned) return b.isPinned - a.isPinned;
-                    return a.title.localeCompare(b.title, 'pt-BR', { sensitivity: 'base' });
-                });
-
+                if (search) cmds = cmds.filter(p => p.title.toLowerCase().includes(search) || p.text.toLowerCase().includes(search));
+                cmds.sort((a, b) => (b.isPinned - a.isPinned) || a.title.localeCompare(b.title));
                 grid.innerHTML = '';
-                if (cmds.length === 0) {
-                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; opacity: 0.5;">Nenhum comando encontrado.</p>';
-                    return;
-                }
-
-                const fragment = document.createDocumentFragment();
+                if (cmds.length === 0) { grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; opacity: 0.5;">Nenhum comando encontrado.</p>'; return; }
                 cmds.forEach(p => {
                     const card = document.createElement('div');
-                    card.className = `card-command ${p.isPinned ? 'is-pinned' : ''}`;
-                    const safeTitle = SecurityUtils.sanitizeText(p.title);
-                    
-                    const temp = document.createElement('div');
-                    temp.innerHTML = p.text;
-                    const textContent = temp.innerText || temp.textContent || '';
-                    const lines = textContent.split(/\r?\n/).filter(Boolean);
-
-                    let terminalHtml = '';
-                    if (lines.length === 0) terminalHtml = '<div class="terminal-line"><span class="terminal-prompt">$</span> <span>...</span></div>';
-                    else {
-                        lines.forEach((ln, idx) => {
-                            terminalHtml += `<div class="terminal-line"><span class="terminal-prompt">${idx===0 ? '$' : '>'}</span>${SecurityUtils.sanitizeText(ln)}</div>`;
-                        });
-                    }
-
-                    card.innerHTML = `
-                        <h3>${safeTitle}</h3>
-                        <div class="terminal-area">${terminalHtml}</div>
-                        
-                        <div class="command-actions">
-                            <button class="btn-terminal copy" onclick="CommandsManager.copy(this, ${p.id})">Copiar</button>
-                            <button class="btn-terminal edit" onclick="CommandsManager.edit(${p.id})">Editar</button>
-                            <button class="btn-terminal" onclick="CommandsManager.togglePin(${p.id})">${p.isPinned ? '📌' : '📍'}</button>
-                            <button class="btn-terminal" onclick="CommandsManager.delete(${p.id})">🗑️</button>
-                        </div>
-                    `;
-                    fragment.appendChild(card);
+                    card.className = `card-command`;
+                    const temp = document.createElement('div'); temp.innerHTML = p.text;
+                    const lines = (temp.innerText || temp.textContent || '').split(/\r?\n/).filter(Boolean);
+                    let terminalHtml = lines.length === 0 ? '<div class="terminal-line"><span class="terminal-prompt">$</span> <span>...</span></div>' : lines.map((ln, idx) => `<div class="terminal-line"><span class="terminal-prompt">${idx===0 ? '$' : '>'}</span>${SecurityUtils.sanitizeText(ln)}</div>`).join('');
+                    card.innerHTML = `<h3>${SecurityUtils.sanitizeText(p.title)}</h3><div class="terminal-area">${terminalHtml}</div><div class="command-actions"><button class="btn-terminal copy" onclick="CommandsManager.copy(this, ${p.id})">Copiar</button><button class="btn-terminal" onclick="CommandsManager.edit(${p.id})">Editar</button><button class="btn-terminal" onclick="CommandsManager.togglePin(${p.id})">${p.isPinned ? '📌' : '📍'}</button><button class="btn-terminal" onclick="CommandsManager.delete(${p.id})">🗑️</button></div>`;
+                    grid.appendChild(card);
                 });
-                grid.appendChild(fragment);
             },
-
-            export() {
-                const data = this.getFromStorage();
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = `backup_comandos_${new Date().toISOString().split('T')[0]}.json`;
-                a.click();
-                URL.revokeObjectURL(a.href);
-            },
-
-            import(input) {
-                const reader = new FileReader();
-                reader.onload = e => {
-                    try {
-                        const imported = JSON.parse(e.target.result);
-                        if (Array.isArray(imported)) {
-                            this.saveToStorage(imported);
-                            this.render();
-                            AppManager.showToast("Importado com sucesso!");
-                        }
-                    } catch { alert("Erro ao importar."); }
-                };
-                if(input.files[0]) reader.readAsText(input.files[0]);
-            }
+            export() { const blob = new Blob([JSON.stringify(this.getFromStorage(), null, 2)], { type: "application/json" }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `backup_comandos.json`; a.click(); },
+            import(input) { const reader = new FileReader(); reader.onload = e => { try { const imp = JSON.parse(e.target.result); if(Array.isArray(imp)){ this.saveToStorage(imp); this.render(); AppManager.showToast("Importado!"); } } catch { alert("Erro import."); } }; if(input.files[0]) reader.readAsText(input.files[0]); }
         };
 
-        // ============================================
-        // GERENCIADOR DE TUTORIAIS
-        // ============================================
-        
         const TutorialsManager = {
-            db: null,
-            editingId: null,
-            selectedTagIds: [],
-
+            db: null, editingId: null, selectedTagIds: [],
             async initDB() {
                 return new Promise((resolve, reject) => {
                     const req = indexedDB.open(CONFIG.DB_NAME, 1);
-                    req.onerror = () => reject('Erro IndexedDB');
-                    req.onupgradeneeded = e => {
-                        const db = e.target.result;
-                        if (!db.objectStoreNames.contains(CONFIG.DB_STORE)) db.createObjectStore(CONFIG.DB_STORE, { keyPath: "id" });
-                    };
-                    req.onsuccess = e => { 
-                        this.db = e.target.result;
-                        document.getElementById('dbStatus').textContent = "🟢 Armazenamento Local Pronto";
-                        resolve();
-                    };
+                    req.onupgradeneeded = e => { const db = e.target.result; if (!db.objectStoreNames.contains(CONFIG.DB_STORE)) db.createObjectStore(CONFIG.DB_STORE, { keyPath: "id" }); };
+                    req.onsuccess = e => { this.db = e.target.result; document.getElementById('dbStatus').textContent = "🟢 DB Online"; resolve(); };
                 });
             },
-
-            async dbSave(item) {
-                return new Promise((resolve, reject) => {
-                    const tx = this.db.transaction(CONFIG.DB_STORE, "readwrite");
-                    tx.objectStore(CONFIG.DB_STORE).put(item);
-                    tx.oncomplete = () => resolve();
-                    tx.onerror = () => reject();
-                });
-            },
-
-            async dbGetAll() {
-                return new Promise((resolve) => {
-                    const tx = this.db.transaction(CONFIG.DB_STORE, "readonly");
-                    const req = tx.objectStore(CONFIG.DB_STORE).getAll();
-                    req.onsuccess = e => resolve(e.target.result || []);
-                    req.onerror = () => resolve([]);
-                });
-            },
-
-            getTags() {
-                try { 
-                    const tags = JSON.parse(localStorage.getItem(CONFIG.TAGS_KEY));
-                    return Array.isArray(tags) ? tags : CONFIG.DEFAULT_TAGS;
-                } catch { 
-                    return CONFIG.DEFAULT_TAGS; 
-                }
-            },
-
-            saveTags(tags) {
-                localStorage.setItem(CONFIG.TAGS_KEY, JSON.stringify(tags));
-            },
-
-            openTagModal() {
-                document.getElementById('tagModal').classList.add('active');
-                document.getElementById('tagModalName').focus();
-            },
+            async dbSave(item) { return new Promise((resolve) => { const tx = this.db.transaction(CONFIG.DB_STORE, "readwrite"); tx.objectStore(CONFIG.DB_STORE).put(item); tx.oncomplete = () => resolve(); }); },
+            async dbGetAll() { return new Promise((resolve) => { const tx = this.db.transaction(CONFIG.DB_STORE, "readonly"); const req = tx.objectStore(CONFIG.DB_STORE).getAll(); req.onsuccess = e => resolve(e.target.result || []); }); },
+            getTags() { try { const tags = JSON.parse(localStorage.getItem(CONFIG.TAGS_KEY)); return Array.isArray(tags) ? tags : []; } catch { return []; } },
+            saveTags(tags) { localStorage.setItem(CONFIG.TAGS_KEY, JSON.stringify(tags)); },
+            openTagModal() { document.getElementById('tagModal').classList.add('active'); document.getElementById('tagModalName').focus(); },
             closeTagModal() { document.getElementById('tagModal').classList.remove('active'); },
-
             createTagFromModal() {
-                const name = document.getElementById('tagModalName').value.trim();
-                const color = document.getElementById('tagModalColor').value;
+                const name = document.getElementById('tagModalName').value.trim(); const color = document.getElementById('tagModalColor').value;
                 if (!name) return;
-                const tags = this.getTags();
-                tags.push({ id: 'tag_' + Date.now(), name, color });
-                this.saveTags(tags);
-                this.closeTagModal();
-                this.renderTagsSelection();
+                const tags = this.getTags(); tags.push({ id: 'tag_' + Date.now(), name, color });
+                this.saveTags(tags); this.closeTagModal(); this.renderTagsSelection();
             },
-
-            deleteTag(e, id) {
-                // CORREÇÃO: Uso de stopPropagation seguro
-                if(e && e.stopPropagation) e.stopPropagation();
-                if (!confirm("Excluir tag?")) return;
-                const tags = this.getTags().filter(t => t.id !== id);
-                this.saveTags(tags);
-                this.selectedTagIds = this.selectedTagIds.filter(tid => tid !== id);
-                this.renderTagsSelection();
-            },
-
+            deleteTag(e, id) { if(e && e.stopPropagation) e.stopPropagation(); if (!confirm("Excluir tag?")) return; const tags = this.getTags().filter(t => t.id !== id); this.saveTags(tags); this.selectedTagIds = this.selectedTagIds.filter(tid => tid !== id); this.renderTagsSelection(); },
             renderTagsSelection() {
-                const div = document.getElementById('tagsSelectionArea');
-                if (!div) return;
-                div.innerHTML = '';
+                const div = document.getElementById('tagsSelectionArea'); if (!div) return; div.innerHTML = '';
                 const tags = this.getTags() || [];
-                if (!Array.isArray(tags)) return;
-                
-                const fragment = document.createDocumentFragment();
                 tags.forEach(t => {
                     const isSel = this.selectedTagIds.includes(t.id);
-                    const el = document.createElement('div');
-                    el.className = `tag-chip ${isSel ? 'selected' : ''}`;
-                    el.style.backgroundColor = t.color;
-                    el.innerHTML = `${SecurityUtils.sanitizeText(t.name)} <span style="margin-left:5px;opacity:0.5;font-size:10px;">✕</span>`;
-                    
-                    // Event Handling manual para evitar problemas de propagação
+                    const el = document.createElement('div'); el.className = `tag-chip ${isSel ? 'selected' : ''}`; el.style.backgroundColor = t.color; el.innerHTML = `${SecurityUtils.sanitizeText(t.name)} <span style="margin-left:5px;opacity:0.5;">✕</span>`;
                     el.querySelector('span').addEventListener('click', (ev) => this.deleteTag(ev, t.id));
-                    
-                    el.addEventListener('click', (e) => {
-                        if(e.target.tagName === 'SPAN') return;
-                        const idx = this.selectedTagIds.indexOf(t.id);
-                        if (idx > -1) this.selectedTagIds.splice(idx, 1);
-                        else this.selectedTagIds.push(t.id);
-                        this.renderTagsSelection();
-                    });
-                    
-                    fragment.appendChild(el);
+                    el.addEventListener('click', (e) => { if(e.target.tagName === 'SPAN') return; const idx = this.selectedTagIds.indexOf(t.id); if (idx > -1) this.selectedTagIds.splice(idx, 1); else this.selectedTagIds.push(t.id); this.renderTagsSelection(); });
+                    div.appendChild(el);
                 });
-                div.appendChild(fragment);
                 this.updateBorder();
             },
-
-            updateBorder() {
-                const tags = this.getTags();
-                const container = document.getElementById('tutorialInputContainer');
-                if (this.selectedTagIds.length > 0) {
-                    const first = tags.find(t => t.id === this.selectedTagIds[0]);
-                    if (first) container.style.borderLeftColor = first.color;
-                } else {
-                    container.style.borderLeftColor = 'var(--accent)';
-                }
-            },
-
+            updateBorder() { const tags = this.getTags(); const container = document.getElementById('tutorialInputContainer'); if (this.selectedTagIds.length > 0) { const first = tags.find(t => t.id === this.selectedTagIds[0]); if (first) container.style.borderLeftColor = first.color; } else { container.style.borderLeftColor = 'var(--accent)'; } },
             async add() {
-                const title = document.getElementById('tutorialTitleInput').value.trim();
-                const content = document.getElementById('tutorialTextInput').innerHTML;
+                const title = document.getElementById('tutorialTitleInput').value.trim(); const content = document.getElementById('tutorialTextInput').innerHTML;
                 if (!title) return alert("Título obrigatório");
-
-                const item = {
-                    id: this.editingId || Date.now(),
-                    title, content,
-                    tags: [...this.selectedTagIds],
-                    isPinned: false
-                };
-                
-                if (this.editingId) {
-                    const all = await this.dbGetAll();
-                    const old = all.find(x => x.id === this.editingId);
-                    if(old) item.isPinned = old.isPinned;
-                }
-
-                await this.dbSave(item);
-                AppManager.showToast("Procedimento salvo!");
-                this.resetForm();
-                this.render();
+                const item = { id: this.editingId || Date.now(), title, content, tags: [...this.selectedTagIds], isPinned: false };
+                if (this.editingId) { const all = await this.dbGetAll(); const old = all.find(x => x.id === this.editingId); if(old) item.isPinned = old.isPinned; }
+                await this.dbSave(item); AppManager.showToast("Procedimento salvo!"); this.resetForm(); this.render();
             },
-
-            resetForm() {
-                this.editingId = null;
-                this.selectedTagIds = [];
-                document.getElementById('tutorialTitleInput').value = '';
-                document.getElementById('tutorialTextInput').innerHTML = '';
-                document.getElementById('tutorialSaveButton').textContent = "Salvar Procedimento";
-                this.renderTagsSelection();
-            },
-
-            async edit(id) {
-                const all = await this.dbGetAll();
-                const t = all.find(x => x.id === id);
-                if (!t) return;
-                this.editingId = id;
-                document.getElementById('tutorialTitleInput').value = t.title;
-                document.getElementById('tutorialTextInput').innerHTML = t.content;
-                this.selectedTagIds = t.tags ? [...t.tags] : [];
-                this.renderTagsSelection();
-                document.getElementById('tutorialSaveButton').textContent = "Atualizar Procedimento";
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            },
-
-            // CORREÇÃO: Argumento (e) para stopPropagation
-            async togglePin(e, id) {
-                if(e && e.stopPropagation) e.stopPropagation();
-                const all = await this.dbGetAll();
-                const item = all.find(x => x.id === id);
-                if (item) {
-                    item.isPinned = !item.isPinned;
-                    await this.dbSave(item);
-                    this.render();
-                }
-            },
-
-            // CORREÇÃO: Argumento (e) para stopPropagation
-            async delete(e, id) {
-                if(e && e.stopPropagation) e.stopPropagation();
-                if (!confirm("Excluir este tutorial?")) return;
-                const tx = this.db.transaction(CONFIG.DB_STORE, "readwrite");
-                tx.objectStore(CONFIG.DB_STORE).delete(id);
-                tx.oncomplete = () => this.render();
-            },
-
+            resetForm() { this.editingId = null; this.selectedTagIds = []; document.getElementById('tutorialTitleInput').value = ''; document.getElementById('tutorialTextInput').innerHTML = ''; document.getElementById('tutorialSaveButton').textContent = "Salvar Procedimento"; this.renderTagsSelection(); },
+            async edit(id) { const all = await this.dbGetAll(); const t = all.find(x => x.id === id); if (!t) return; this.editingId = id; document.getElementById('tutorialTitleInput').value = t.title; document.getElementById('tutorialTextInput').innerHTML = t.content; this.selectedTagIds = t.tags ? [...t.tags] : []; this.renderTagsSelection(); document.getElementById('tutorialSaveButton').textContent = "Atualizar Procedimento"; window.scrollTo({ top: 0, behavior: 'smooth' }); },
+            async togglePin(e, id) { if(e && e.stopPropagation) e.stopPropagation(); const all = await this.dbGetAll(); const item = all.find(x => x.id === id); if (item) { item.isPinned = !item.isPinned; await this.dbSave(item); this.render(); } },
+            async delete(e, id) { if(e && e.stopPropagation) e.stopPropagation(); if (!confirm("Excluir?")) return; const tx = this.db.transaction(CONFIG.DB_STORE, "readwrite"); tx.objectStore(CONFIG.DB_STORE).delete(id); tx.oncomplete = () => this.render(); },
             triggerImageUpload() { document.getElementById('imgUpload').click(); },
-            
-            handleImageUpload(input) {
-                if (input.files[0]) {
-                    const r = new FileReader();
-                    r.onload = e => this.insertImg(e.target.result);
-                    r.readAsDataURL(input.files[0]);
-                }
-            },
-
-            triggerUrlImage() {
-                const url = prompt("Link da imagem:");
-                if (url && SecurityUtils.isValidURL(url)) this.insertImg(url);
-                else if (url) alert("URL inválida");
-            },
-
-            insertImg(src) {
-                // OTIMIZAÇÃO: lazy load inserido na criação para evitar regex no render
-                const img = `<img src="${src}" loading="lazy" style="width:80%;display:block;margin:10px auto;" alt="Imagem do tutorial">`;
-                document.execCommand('insertHTML', false, img);
-            },
-
-            imgZoom(e) {
-                if (e.target.tagName === 'IMG') {
-                    if (e.altKey || e.shiftKey) {
-                        const currentW = e.target.style.width || "80%";
-                        const newW = prompt("Redimensionar imagem (visualização) - Largura:", currentW);
-                        if (newW && SecurityUtils.isValidCSSValue(newW)) {
-                            e.target.style.width = newW;
-                            e.target.style.height = "auto";
-                        }
-                    } else {
-                        document.getElementById('lightbox').style.display = 'flex';
-                        document.getElementById('lightboxImg').src = e.target.src;
-                    }
-                }
-            },
-
+            handleImageUpload(input) { if (input.files[0]) { const r = new FileReader(); r.onload = e => this.insertImg(e.target.result); r.readAsDataURL(input.files[0]); } },
+            triggerUrlImage() { const url = prompt("Link da imagem:"); if (url) this.insertImg(url); },
+            insertImg(src) { document.execCommand('insertHTML', false, `<img src="${src}" loading="lazy" style="width:80%;display:block;margin:10px auto;" alt="Imagem do tutorial">`); },
+            imgZoom(e) { if (e.target.tagName === 'IMG') { if (e.altKey) { const newW = prompt("Largura:", e.target.style.width); if (newW) e.target.style.width = newW; } else { document.getElementById('lightbox').classList.add('active'); document.getElementById('lightboxImg').src = e.target.src; } } },
             async render() {
-                const grid = document.getElementById('tutorialGrid');
-                const term = document.getElementById('tutorialSearch').value.toLowerCase();
-                const allTags = this.getTags();
-                let data = await this.dbGetAll();
-
-                if (term) {
-                    data = data.filter(t =>
-                        t.title.toLowerCase().includes(term) ||
-                        t.content.toLowerCase().includes(term)
-                    );
-                }
+                const grid = document.getElementById('tutorialGrid'); const term = document.getElementById('tutorialSearch').value.toLowerCase(); const allTags = this.getTags(); let data = await this.dbGetAll();
+                if (term) data = data.filter(t => t.title.toLowerCase().includes(term) || t.content.toLowerCase().includes(term));
                 data.sort((a, b) => (b.isPinned - a.isPinned) || (b.id - a.id));
-
                 grid.innerHTML = '';
-                if (data.length === 0) {
-                    grid.innerHTML = '<p style="text-align: center; opacity: 0.5;">Nenhum procedimento encontrado.</p>';
-                    return;
-                }
-
-                const fragment = document.createDocumentFragment();
+                if (data.length === 0) { grid.innerHTML = '<p style="text-align: center; opacity: 0.5;">Nenhum procedimento encontrado.</p>'; return; }
                 data.forEach(t => {
-                    const card = document.createElement('div');
-                    card.className = `card-tutorial ${t.isPinned ? 'is-pinned' : ''}`;
-
-                    let cardColor = 'var(--accent)';
-                    let tagsHtml = '';
-                    if (t.tags && t.tags.length > 0) {
-                        const first = allTags.find(x => x.id === t.tags[0]);
-                        if (first) cardColor = first.color;
-                        t.tags.forEach(tid => {
-                            const tag = allTags.find(x => x.id === tid);
-                            if (tag) tagsHtml += `<span class="card-tag-small" style="background:${tag.color}">${SecurityUtils.sanitizeText(tag.name)}</span>`;
-                        });
-                    }
-
+                    const card = document.createElement('div'); card.className = `card-tutorial ${t.isPinned ? 'is-pinned' : ''}`;
+                    let cardColor = 'var(--accent)'; let tagsHtml = '';
+                    if (t.tags && t.tags.length > 0) { const first = allTags.find(x => x.id === t.tags[0]); if (first) cardColor = first.color; t.tags.forEach(tid => { const tag = allTags.find(x => x.id === tid); if (tag) tagsHtml += `<span class="card-tag-small" style="background:${tag.color}">${SecurityUtils.sanitizeText(tag.name)}</span>`; }); }
                     card.style.borderLeftColor = cardColor;
-                    
-                    // Renderização simplificada (lazy load já garantido na inserção)
-                    card.innerHTML = `
-                        <div class="card-header" onclick="this.parentElement.classList.toggle('open')">
-                            <div class="card-title-area">
-                                <h3 style="color: ${cardColor === 'var(--accent)' ? 'var(--primary)' : cardColor}">${SecurityUtils.sanitizeText(t.title)}</h3>
-                            </div>
-                            <div style="display:flex; align-items:center;">
-                                <div class="card-tags">${tagsHtml}</div>
-                                <div class="card-options">
-                                    <button class="btn-opt ${t.isPinned ? 'active' : ''}" onclick="TutorialsManager.togglePin(event, ${t.id})">📌</button>
-                                    <button class="btn-opt" onclick="TutorialsManager.delete(event, ${t.id})">🗑️</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-content" onclick="TutorialsManager.imgZoom(event)">${t.content}</div>
-                            <div class="card-footer"><button class="btn-outline" onclick="TutorialsManager.edit(${t.id})">Editar</button></div>
-                        </div>
-                    `;
-                    fragment.appendChild(card);
+                    card.innerHTML = `<div class="card-header" onclick="this.parentElement.classList.toggle('open')"><div class="card-title-area"><h3 style="color: ${cardColor === 'var(--accent)' ? 'var(--primary)' : cardColor}">${SecurityUtils.sanitizeText(t.title)}</h3></div><div style="display:flex; align-items:center;"><div class="card-tags">${tagsHtml}</div><div class="card-options"><button class="btn-top-icon" onclick="TutorialsManager.togglePin(event, ${t.id})">📌</button><button class="btn-top-icon" onclick="TutorialsManager.delete(event, ${t.id})">🗑️</button></div></div></div><div class="card-body"><div class="card-content-inner" onclick="TutorialsManager.imgZoom(event)">${t.content}</div><div class="card-footer"><button class="btn-outline" onclick="TutorialsManager.edit(${t.id})">Editar</button></div></div>`;
+                    grid.appendChild(card);
                 });
-                grid.appendChild(fragment);
             },
-
-            async export() {
-                const data = { tutorials: await this.dbGetAll(), tags: this.getTags() };
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = `backup_tutoriais_${new Date().toISOString().split('T')[0]}.json`;
-                a.click();
-                URL.revokeObjectURL(a.href);
-            },
-
-            import(inp) {
-                const r = new FileReader();
-                r.onload = async e => {
-                    try {
-                        const j = JSON.parse(e.target.result);
-                        if (j.tags) this.saveTags(j.tags);
-                        if (j.tutorials) for (const t of j.tutorials) await this.dbSave(t);
-                        this.render();
-                        this.renderTagsSelection();
-                        AppManager.showToast("Importado!");
-                    } catch { alert("Arquivo inválido."); }
-                };
-                if(inp.files[0]) r.readAsText(inp.files[0]);
-            }
+            async export() { const data = { tutorials: await this.dbGetAll(), tags: this.getTags() }; const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `backup_tutoriais.json`; a.click(); },
+            import(inp) { const r = new FileReader(); r.onload = async e => { try { const j = JSON.parse(e.target.result); if (j.tags) this.saveTags(j.tags); if (j.tutorials) for (const t of j.tutorials) await this.dbSave(t); this.render(); this.renderTagsSelection(); AppManager.showToast("Importado!"); } catch { alert("Erro arquivo."); } }; if(inp.files[0]) r.readAsText(inp.files[0]); }
         };
 
-        // ============================================
-        // INICIALIZAÇÃO E EVENTOS GLOBAIS
-        // ============================================
-        
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                document.getElementById('tagModal').classList.remove('active');
-                document.getElementById('lightbox').style.display = 'none';
-            }
-        });
+        const ReportsManager = {
+            storageKey: 'noc_clients',
+            currentSortMode: 'manual',
+            legend: { 
+                0: "OK", 1: "Backup com Sucesso Parcial", 2: "Backup avançou a Janela", 
+                3: "Problemas Espaço no Destino", 4: "Falha de Energia / Ambiente", 5: "Falha na Mídia Destino", 
+                6: "Falha no Disco Origem", 7: "Falha Interna de Software", 8: "Falha Desconhecida", 
+                9: "Status Desconhecido", 10: "Não executa" 
+            },
+            init() { this.loadClients(); const today = new Date(); if (!document.getElementById('reportDateStart').value) document.getElementById('reportDateStart').valueAsDate = today; if (!document.getElementById('reportDateEnd').value) document.getElementById('reportDateEnd').valueAsDate = today; },
+            getClients() { return JSON.parse(localStorage.getItem(this.storageKey)) || {}; },
+            saveClients(clients) { localStorage.setItem(this.storageKey, JSON.stringify(clients)); },
+            clearOutput() { document.getElementById('nocOutputArea').value = ""; },
+            handleClientChange() { this.clearOutput(); this.loadRoutines(); },
+            addClient() {
+                const name = document.getElementById('nocNewClientName').value.trim();
+                if (!name) return;
+                const clients = this.getClients(); clients[name] = clients[name] || [];
+                this.saveClients(clients); this.loadClients();
+                document.getElementById('nocClientSelect').value = name; this.handleClientChange(); document.getElementById('nocNewClientName').value = '';
+            },
+            loadClients() {
+                const clients = this.getClients(); const select = document.getElementById('nocClientSelect'); const currentVal = select.value;
+                select.innerHTML = '<option value="" disabled selected>Selecione...</option>';
+                for (let client in clients) { const option = document.createElement('option'); option.value = client; option.textContent = client; select.appendChild(option); }
+                if(currentVal && clients[currentVal]) select.value = currentVal;
+            },
+            addRoutine() {
+                const client = document.getElementById('nocClientSelect').value;
+                if (!client) return alert("Selecione o cliente!");
+                const num = document.getElementById('nocRoutineNum').value;
+                const name = document.getElementById('nocRoutineName').value;
+                if (!name) return;
+                const clients = this.getClients(); clients[client].push({ num, name, id: Date.now() }); 
+                this.saveClients(clients); this.loadRoutines();
+                document.getElementById('nocRoutineNum').value = ''; document.getElementById('nocRoutineName').value = '';
+            },
+            editRoutine(id) {
+                const client = document.getElementById('nocClientSelect').value; const clients = this.getClients();
+                const r = clients[client].find(x => x.id === id); if(!r) return;
+                const newNum = prompt("Nº:", r.num); const newName = prompt("Nome:", r.name);
+                if (newName !== null) { r.num = newNum; r.name = newName; this.saveClients(clients); this.loadRoutines(); }
+            },
+            deleteRoutine(id) {
+                if(!confirm("Apagar?")) return;
+                const client = document.getElementById('nocClientSelect').value; const clients = this.getClients();
+                clients[client] = clients[client].filter(r => r.id !== id);
+                this.saveClients(clients); this.loadRoutines();
+            },
+            setSortMode(mode) {
+                this.currentSortMode = mode;
+                document.getElementById('btnSortManual').classList.toggle('active', mode === 'manual');
+                document.getElementById('btnSortAlpha').classList.toggle('active', mode === 'alpha');
+                this.loadRoutines();
+            },
+            loadRoutines() {
+                const client = document.getElementById('nocClientSelect').value;
+                if (!client) return;
+                let routines = [...(this.getClients()[client] || [])];
+                if (this.currentSortMode === 'alpha') routines.sort((a, b) => `${a.num} ${a.name}`.localeCompare(`${b.num} ${b.name}`));
+                const listDiv = document.getElementById('nocSavedRoutinesList'); const entryArea = document.getElementById('nocDailyEntryArea');
+                listDiv.innerHTML = ''; entryArea.innerHTML = `<h4 style="margin:0 0 10px 0; color:var(--text);">Cliente: ${client}</h4>`;
+                routines.forEach((r, index) => {
+                    const listItem = document.createElement('div'); listItem.className = 'noc-routine-item';
+                    listItem.innerHTML = `<div style="flex:1;font-size:0.85em;"><b>${r.num ? r.num+' - ':''}</b>${r.name}</div><div><button class="btn-top-icon" onclick="ReportsManager.editRoutine(${r.id})">✎</button><button class="btn-top-icon" onclick="ReportsManager.deleteRoutine(${r.id})">✖</button></div>`;
+                    listDiv.appendChild(listItem);
 
+                    const inputRow = document.createElement('div'); inputRow.className = `noc-routine-item status-0`; inputRow.id = `noc-row-${index}`;
+                    inputRow.dataset.num = r.num || ''; inputRow.dataset.name = r.name;
+                    inputRow.innerHTML = `<div style="flex:1;"><b>${r.num ? r.num+' - ':''}</b>${r.name}</div><input type="number" min="0" max="10" value="0" style="width:60px;margin:0;padding:5px;" id="noc-status-${index}" onchange="ReportsManager.updateRowColor(${index}, this.value)">`;
+                    entryArea.appendChild(inputRow);
+                });
+            },
+            updateRowColor(index, val) {
+                const row = document.getElementById(`noc-row-${index}`);
+                row.className = 'noc-routine-item';
+                if (val == 0) row.classList.add('status-0');
+                else if (val == 1) row.classList.add('status-1');
+                else if (val == 10) row.classList.add('status-off');
+                else row.classList.add('status-err');
+            },
+            formatDate(dateStr) { const [y, m, d] = dateStr.split('-'); return `${d}/${m}`; },
+            generateReport() {
+                const client = document.getElementById('nocClientSelect').value; const dateStart = document.getElementById('reportDateStart').value;
+                if (!client || !dateStart) return alert("Verifique cliente/data!");
+                const dateEnd = document.getElementById('reportDateEnd').value;
+                let dateText = (!dateEnd || dateStart === dateEnd) ? `dia ${this.formatDate(dateStart)}` : `período de ${this.formatDate(dateStart)} a ${this.formatDate(dateEnd)}`;
+                let report = `Verificação dos Backups do ${dateText}:\n\n`;
+                const rows = document.getElementById('nocDailyEntryArea').querySelectorAll('.noc-routine-item');
+                rows.forEach((row, index) => {
+                    if(!row.id) return; 
+                    const num = row.dataset.num; const name = row.dataset.name; const statusVal = document.getElementById(`noc-status-${index}`).value;
+                    let resultText = this.legend[statusVal] || "Desconhecido"; let extra = "";
+                    if (statusVal == 10) { const m = prompt(`Rotina "${name}" não executa quando?`, "sábado/domingo"); resultText = `Não executa ${m || ""}.`; }
+                    else if (statusVal != 0) { const t = confirm(`Ticket para "${name}"?`) ? prompt("Ticket:") : ""; if (t) extra = ` (Ticket: ${t})`; }
+                    report += `${num ? num+' - ':''}${name} = ${resultText}${extra}\n`;
+                });
+                document.getElementById('nocOutputArea').value = report.trim();
+            },
+            copyText() {
+                const area = document.getElementById("nocOutputArea"); 
+                area.value = area.value.trim(); // Garante que não haja espaços/linhas extras ao copiar
+                area.select(); 
+                document.execCommand("copy"); 
+                AppManager.showToast("Relatório Copiado!");
+            },
+            enableEdit() { document.getElementById("nocOutputArea").readOnly = false; },
+            exportData() { const blob = new Blob([localStorage.getItem(this.storageKey)], { type: 'application/json' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `backup_noc.json`; a.click(); },
+            importData(event) { const r = new FileReader(); r.onload = (e) => { localStorage.setItem(this.storageKey, e.target.result); this.loadClients(); AppManager.showToast("Importado!"); }; r.readAsText(event.target.files[0]); }
+        };
+
+        // Init
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') { document.getElementById('tagModal').classList.remove('active'); document.getElementById('lightbox').classList.remove('active'); } });
         document.addEventListener('DOMContentLoaded', async () => {
             if (localStorage.getItem(CONFIG.STORAGE_KEY_DARK_MODE) === 'enabled') AppManager.toggleDarkMode();
             AppManager.loadBackground();
-            
             await TutorialsManager.initDB();
             PromptsManager.render();
             TutorialsManager.renderTagsSelection();
             TutorialsManager.render();
             CommandsManager.render();
             
-            // Event Listeners para Editores
+            // Listener para redimensionar imagens nos editores (clique)
             document.querySelectorAll('.rich-editor').forEach(editor => {
                 editor.addEventListener('click', e => {
                     if (e.target.tagName === 'IMG') {
-                        const currentW = e.target.style.width || "80%";
+                        const currentW = e.target.style.width || "100%";
                         const newW = prompt("Redimensionar imagem - Digite a largura (ex: 50%, 100%, 400px):", currentW);
                         if (newW && SecurityUtils.isValidCSSValue(newW)) {
                             e.target.style.width = newW;
@@ -1386,18 +1395,17 @@
                         }
                     }
                 });
+            });
 
-                // PASTE HANDLER OTIMIZADO
-                editor.addEventListener('paste', e => {
+            // Colar imagem
+            document.querySelectorAll('.rich-editor').forEach(ed => {
+                ed.addEventListener('paste', e => {
                     const items = (e.clipboardData || e.originalEvent.clipboardData).items;
                     for (let i in items) {
                         if (items[i].kind === 'file') {
                             e.preventDefault();
                             const reader = new FileReader();
-                            reader.onload = ev => {
-                                // Insere diretamente com lazy load
-                                document.execCommand('insertHTML', false, `<img src="${ev.target.result}" loading="lazy" style="width:80%;display:block;margin:10px auto;">`);
-                            };
+                            reader.onload = ev => document.execCommand('insertHTML', false, `<img src="${ev.target.result}" loading="lazy" style="width:100%;display:block;margin:10px auto;">`);
                             reader.readAsDataURL(items[i].getAsFile());
                         }
                     }
