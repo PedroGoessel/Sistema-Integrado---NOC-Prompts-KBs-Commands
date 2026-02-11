@@ -1,7 +1,4 @@
 <p align="center">
-<img src="https://img.shields.io/badge/STATUS-OPERACIONAL-10b981?style=for-the-badge" alt="Status">
-  <img src="https://img.shields.io/badge/VERSÃO-2.0.0--STABLE-2c3e50?style=for-the-badge" alt="Versão">
-  <img src="https://img.shields.io/badge/INTERFACE-CORPORATE_ZEN-f1f5f9?style=for-the-badge" alt="Interface">
 </p> <h1 align="center">🚀 Sistema Integrado: NOC, KBs & Prompts</h1> <p align="center">
   <strong>A central de comando definitiva para o profissional de tecnologia moderno.</strong>  
 
